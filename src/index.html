@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>PerformanceApp</title>
@@ -8,7 +9,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
-<body>
+
+<body onload="loadStats()">
   <app-root></app-root>
 </body>
+<script src="//rawgit.com/mrdoob/stats.js/master/build/stats.min.js"></script>
+<script>
+  function loadStats() {
+    var stats = new Stats();
+    document.body.appendChild(stats.dom);
+    requestAnimationFrame(function loop() {
+      stats.update();
+      requestAnimationFrame(loop)
+    });
+  }
+</script>
+
 </html>
