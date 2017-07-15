@@ -38,6 +38,8 @@ export interface GraphNode extends SimulationNodeDatum {
 }
 
 const NODE_COUNT = 700;
+const LOWER_CHARGE = -25;
+const UPPER_CHARGE = -100;
 const colorList = [
   '#1565c0',
   '#5e92f3',
@@ -56,6 +58,8 @@ export class D3HelperService {
 
   private forceSimulation: Simulation<GraphNode, SimulationLinkDatum<GraphNode>>;
   private sizes: BehaviorSubject<{ width: number, height: number }> = new BehaviorSubject({ width: 100, height: 100 });
+  private charge = LOWER_CHARGE;
+  private centers: { width: number, height: number }[] = [];
 
   constructor() {
     const generatedNodes: GraphNode[] = []
@@ -97,6 +101,17 @@ export class D3HelperService {
         return entDetails;
       }).distinctUntilChanged(_.isEqual)
       .shareReplay();
+
+    setInterval(() => {
+      this.forceSimulation.force('charge', forceManyBody().strength(this.charge))
+      this.charge--;
+      if (this.charge < UPPER_CHARGE) {
+        this.charge = LOWER_CHARGE;
+      }
+      this.forceSimulation
+        .alpha(.01)
+        .restart();
+    }, 250)
   }
 
   updateSize(newSize: { height: number, width: number }) {
@@ -107,7 +122,7 @@ export class D3HelperService {
   // pushes a new array to relationships and entities
   updateForce(entities: GraphNode[], relationships: SimulationLinkDatum<GraphNode>[], height: number, width: number) {
     this.forceSimulation = forceSimulation(entities)
-      .force('charge', forceManyBody().strength(-45))
+      .force('charge', forceManyBody().strength(LOWER_CHARGE))
       .force('center', forceCenter(width / 2, height / 2))
       .force('x', forceX())
       .force('y', forceY())
@@ -116,7 +131,6 @@ export class D3HelperService {
         this.graphData.next({ relationships: [...relationships], entities: [...entities] });
       })
       .force('link', forceLink(relationships)
-        // .id((node: GraphNode) => node.index.toString())
         .distance(0).strength(.5));
   }
 }

@@ -11,7 +11,7 @@ import { D3HelperService, GraphNode } from '../d3-helper.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PeopleListComponent {
-  entities: Observable<{entity: GraphNode, relCount: number}[]>;
+  entities: Observable<{ entity: GraphNode, relCount: number }[]>;
 
   constructor(private d3Helper: D3HelperService) {
     this.entities = d3Helper.entitiesAndDetails;
