@@ -95,7 +95,8 @@ export class D3HelperService {
           entDetails.push({ entity, relCount: rels.length });
         })
         return entDetails;
-      })
+      }).distinctUntilChanged(_.isEqual)
+      .shareReplay();
   }
 
   updateSize(newSize: { height: number, width: number }) {

@@ -10,5 +10,9 @@ import { D3HelperService, GraphNode } from '../d3-helper.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PeopleListDisplayComponent {
-  @Input() entities: {entity: GraphNode, relCount: number}[];
+  @Input() entities: { entity: GraphNode, relCount: number }[];
+
+  trackEntsBy(index, entry: { entity: GraphNode, relCount: number }) {
+    return entry.entity && entry.entity.displayName;
+  }
 }

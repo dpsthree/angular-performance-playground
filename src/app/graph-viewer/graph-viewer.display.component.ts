@@ -25,6 +25,16 @@ export class GraphViewerDisplayComponent implements AfterViewChecked {
     });
   }
 
+  trackLineBy(index: number, line: SimulationLinkDatum<GraphNode>) {
+    const source: GraphNode = line.source as GraphNode;
+    const target: GraphNode = line.target as GraphNode;
+    return source.displayName + target.displayName;
+  }
+
+  trackEntsBy(index: number, entry: GraphNode) {
+    return entry.displayName;
+  }
+
   ngAfterViewChecked() {
     if (!this.domInitialized) {
 
