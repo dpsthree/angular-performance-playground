@@ -34,7 +34,7 @@ export interface GraphNode extends SimulationNodeDatum {
   displayName: string;
 }
 
-const NODE_COUNT = 1000;
+const NODE_COUNT = 500;
 const LINK_COUNT = NODE_COUNT / 2;
 
 @Injectable()
