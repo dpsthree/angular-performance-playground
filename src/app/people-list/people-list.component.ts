@@ -10,12 +10,11 @@ import { D3HelperService, GraphNode } from '../d3-helper.service';
 })
 export class PeopleListComponent {
   relationships: SimulationLinkDatum<GraphNode>[];
-  entities: GraphNode[];
+  entities: {entity: GraphNode, relCount: number}[];
 
   constructor(private d3Helper: D3HelperService) {
-    d3Helper.linksAndNodes.subscribe(({ relationships, entities }) => {
-      this.relationships = relationships;
-      this.entities = entities;
+    d3Helper.entitiesAndDetails.subscribe( list => {
+      this.entities = list;
     })
   }
 }

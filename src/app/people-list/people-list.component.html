@@ -2,7 +2,7 @@
     <md-card-title>People</md-card-title>
     <md-card-content>
       <md-list>
-        <md-list-item *ngFor="let entity of entities">{{entity.displayName}}</md-list-item>
+        <md-list-item *ngFor="let entry of entities">{{entry.relCount}} - {{entry.entity.displayName}}</md-list-item>
       </md-list>
     </md-card-content>
 </md-card>

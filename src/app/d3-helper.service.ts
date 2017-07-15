@@ -13,6 +13,7 @@ import {
 import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/shareReplay'
 import * as _ from 'lodash';
 import * as faker from 'faker';
 
@@ -49,7 +50,9 @@ const colorList = [
 @Injectable()
 export class D3HelperService {
   // Force ticked outgoing streams of data
-  linksAndNodes: Subject<{ relationships: SimulationLinkDatum<GraphNode>[], entities: GraphNode[] }> = new Subject();
+  private graphData:  Subject<{ relationships: SimulationLinkDatum<GraphNode>[], entities: GraphNode[] }> = new Subject();
+  linksAndNodes = this.graphData.shareReplay();
+  entitiesAndDetails: Observable<{ entity: GraphNode, relCount: number }[]>;
 
   private forceSimulation: Simulation<GraphNode, SimulationLinkDatum<GraphNode>>;
   private sizes: BehaviorSubject<{ width: number, height: number }> = new BehaviorSubject({ width: 100, height: 100 });
@@ -77,6 +80,16 @@ export class D3HelperService {
     this.sizes.subscribe(({ width, height }) => {
       this.updateForce(generatedNodes, generatedLinks, height, width);
     })
+
+    this.entitiesAndDetails = this.linksAndNodes
+      .map(relsAndEnts => {
+        const entDetails: { entity: GraphNode, relCount: number }[] = [];
+        relsAndEnts.entities.forEach(entity => {
+          const rels = relsAndEnts.relationships.filter(rel => rel.source === entity || rel.target === entity);
+          entDetails.push({ entity, relCount: rels.length });
+        })
+        return entDetails;
+      })
   }
 
   updateSize(newSize: { height: number, width: number }) {
@@ -93,7 +106,7 @@ export class D3HelperService {
       .force('y', forceY())
       .alphaMin(.001)
       .on('tick', () => {
-        this.linksAndNodes.next({ relationships: [...relationships], entities: [...entities] });
+        this.graphData.next({ relationships: [...relationships], entities: [...entities] });
       })
       .force('link', forceLink(relationships)
         // .id((node: GraphNode) => node.index.toString())
