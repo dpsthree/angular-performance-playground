@@ -38,7 +38,7 @@ export interface GraphNode extends SimulationNodeDatum {
 }
 
 const NODE_COUNT = 700;
-const LOWER_CHARGE = -25;
+const LOWER_CHARGE = 0;
 const UPPER_CHARGE = -100;
 const colorList = [
   '#1565c0',
@@ -111,7 +111,7 @@ export class D3HelperService {
       this.forceSimulation
         .alpha(.01)
         .restart();
-    }, 250)
+    }, 500)
   }
 
   updateSize(newSize: { height: number, width: number }) {
@@ -122,7 +122,7 @@ export class D3HelperService {
   // pushes a new array to relationships and entities
   updateForce(entities: GraphNode[], relationships: SimulationLinkDatum<GraphNode>[], height: number, width: number) {
     this.forceSimulation = forceSimulation(entities)
-      .force('charge', forceManyBody().strength(LOWER_CHARGE))
+      .force('charge', forceManyBody().strength(-10))
       .force('center', forceCenter(width / 2, height / 2))
       .force('x', forceX())
       .force('y', forceY())
