@@ -1,0 +1,4 @@
+app-people-list {
+  height: calc(100vh - 8px);
+  overflow: scroll;
+}

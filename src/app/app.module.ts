@@ -1,4 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MdCardModule, MdListModule, MdSidenavModule } from '@angular/material';
 import { NgModule } from '@angular/core';
 
 import { D3HelperService } from './d3-helper.service';
@@ -13,7 +16,12 @@ import { PeopleListComponent } from './people-list/people-list.component';
     PeopleListComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    BrowserAnimationsModule,
+    FlexLayoutModule,
+    MdCardModule,
+    MdListModule,
+    MdSidenavModule
   ],
   providers: [D3HelperService],
   bootstrap: [AppComponent]

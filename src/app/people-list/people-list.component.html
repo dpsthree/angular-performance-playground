@@ -1,3 +1,8 @@
-<ul>
-  <li *ngFor="let entity of entities">{{entity.displayName}}</li>
-</ul>
+<md-card>
+    <md-card-title>People</md-card-title>
+    <md-card-content>
+      <md-list>
+        <md-list-item *ngFor="let entity of entities">{{entity.displayName}}</md-list-item>
+      </md-list>
+    </md-card-content>
+</md-card>

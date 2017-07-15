@@ -1,2 +1,8 @@
-<app-graph-viewer></app-graph-viewer>
-<app-people-list></app-people-list>
+<md-sidenav-container>
+  <md-sidenav #sidenav opened="true" disableClose="true">
+    <app-people-list ></app-people-list>
+  </md-sidenav>
+  <div fxLayout="row" fxLayoutAlign="space-around stretch">
+    <app-graph-viewer fxFlex="100" fxFlexOffset="248px"></app-graph-viewer>
+  </div>
+</md-sidenav-container>

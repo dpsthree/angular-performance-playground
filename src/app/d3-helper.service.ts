@@ -32,10 +32,19 @@ import * as faker from 'faker';
  */
 export interface GraphNode extends SimulationNodeDatum {
   displayName: string;
+  color: string;
 }
 
 const NODE_COUNT = 500;
 const LINK_COUNT = NODE_COUNT / 2;
+const colorList = [
+  '#1565c0',
+  '#5e92f3',
+  '#003c8f',
+  '#e91e63',
+  '#ff6090',
+  '#b0003a'
+]
 
 @Injectable()
 export class D3HelperService {
@@ -48,7 +57,7 @@ export class D3HelperService {
   constructor() {
     const generatedNodes: GraphNode[] = []
     for (let i = 0; i < NODE_COUNT; i++) {
-      generatedNodes.push({ displayName: faker.name.findName(), index: i });
+      generatedNodes.push({ displayName: faker.name.findName(), index: i, color: colorList[Math.floor(Math.random() * 6)] });
     }
 
     const generatedLinks: SimulationLinkDatum<GraphNode>[] = [];

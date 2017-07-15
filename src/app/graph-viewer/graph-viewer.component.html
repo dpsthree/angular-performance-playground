@@ -1,27 +1,23 @@
-<div class="container">
-  <svg width="100%" height="100%" #svgEle>
-    <line *ngFor="let rel of relationships; let i = index;" [attr.x1]="rel.source.x" [attr.x2]="rel.target.x" stroke="black"
-      [attr.y1]="rel.source.y" [attr.y2]="rel.target.y" class="rel-highlight">
-    </line>
+<md-card>
+  <md-card-content>
+    <svg width="100%" height="100%" #svgEle>
+      <line *ngFor="let rel of relationships; let i = index;" [attr.x1]="rel.source.x" [attr.x2]="rel.target.x" stroke="black"
+        [attr.y1]="rel.source.y" [attr.y2]="rel.target.y" class="rel-highlight">
+      </line>
 
-    <!--
-    Create a group to contain each entity (circle and name).
-    Translate is applied here so that both circle and text are kept together
-  -->
-    <g (click)="entitySelected(entity)" *ngFor="let entity of entities" [attr.transform]="'translate(' + entity.x +', ' + entity.y + ')'">
+      <!--
+        Create a group to contain each entity (circle and name).
+        Translate is applied here so that both circle and text are kept together
+      -->
+      <g (click)="entitySelected(entity)" *ngFor="let entity of entities" [attr.transform]="'translate(' + entity.x +', ' + entity.y + ')'">
+        <circle (mouseout)="hoverEntity = undefined" [attr.r]="5" [style.fill-opacity]="1" [style.fill]="entity.color"></circle>
 
-      <!-- 
-      Yes, the nested group is needed. The translation on the outter group is overridden, 
-      if placed hoverstate is placed outer group.
-    -->
+        <!-- entity name -->
+        <!-- <text dx="0" dy="1.8em" font-size="16px" text-anchor="middle">
+          {{entity.displayName}}
+        </text> -->
 
-      <circle (mouseout)="hoverEntity = undefined" [attr.r]="3" [style.fill-opacity]="1"></circle>
-
-      <!-- entity name -->
-      <!-- <text dx="0" dy="1.8em" font-size="16px" text-anchor="middle">
-        {{entity.displayName}}
-      </text> -->
-
-    </g>
-  </svg>
-</div>
+      </g>
+    </svg>
+  </md-card-content>
+</md-card>
