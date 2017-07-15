@@ -1,48 +1,21 @@
-import { Component, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { SimulationLinkDatum } from 'd3-force';
+import { Observable } from 'rxjs/Observable';
 
 import { D3HelperService, GraphNode } from '../d3-helper.service';
 
 @Component({
   selector: 'app-graph-viewer',
   templateUrl: './graph-viewer.component.html',
-  styleUrls: ['./graph-viewer.component.css']
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GraphViewerComponent implements AfterViewChecked {
+export class GraphViewerComponent {
 
-  relationships: SimulationLinkDatum<GraphNode>[];
-  entities: GraphNode[];
-  private domInitialized = false;
-  @ViewChild('svgEle') svgElement: ElementRef;
+  relationships: Observable<SimulationLinkDatum<GraphNode>[]>;
+  entities: Observable<GraphNode[]>;
 
   constructor(private d3Helper: D3HelperService) {
-    d3Helper.linksAndNodes.subscribe(({ relationships, entities }) => {
-      this.relationships = relationships;
-      this.entities = entities;
-    })
-    window.addEventListener('resize', () => {
-      d3Helper.updateSize({
-        height: this.svgElement.nativeElement.clientHeight,
-        width: this.svgElement.nativeElement.clientWidth
-      });
-    });
-  }
-  ngAfterViewChecked() {
-    if (!this.domInitialized) {
-
-      this.d3Helper.updateSize({
-        height: this.svgElement.nativeElement.clientHeight,
-        width: this.svgElement.nativeElement.clientWidth
-      })
-    }
-    this.domInitialized = true;
-  }
-
-  relationshipSelected(rel: SimulationLinkDatum<GraphNode>) {
-    console.log('relationships selected', rel);
-  }
-
-  entitySelected(entity: GraphNode) {
-    console.log('node selected', entity);
+    this.relationships = d3Helper.linksAndNodes.map(({ relationships, entities }) =>  relationships);
+    this.entities = d3Helper.linksAndNodes.map(({ relationships, entities }) => entities);
   }
 }

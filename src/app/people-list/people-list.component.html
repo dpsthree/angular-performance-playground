@@ -1,8 +1,4 @@
-<md-card>
-    <md-card-title>People</md-card-title>
-    <md-card-content>
-      <md-list>
-        <md-list-item *ngFor="let entry of entities">{{entry.relCount}} - {{entry.entity.displayName}}</md-list-item>
-      </md-list>
-    </md-card-content>
-</md-card>
+<app-people-list-display
+  [entities]="entities | async"
+>
+</app-people-list-display>

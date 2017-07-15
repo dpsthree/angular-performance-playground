@@ -14,6 +14,7 @@ import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/shareReplay'
+import 'rxjs/add/operator/distinctUntilChanged'
 import * as _ from 'lodash';
 import * as faker from 'faker';
 
@@ -36,8 +37,7 @@ export interface GraphNode extends SimulationNodeDatum {
   color: string;
 }
 
-const NODE_COUNT = 500;
-const LINK_COUNT = NODE_COUNT / 2;
+const NODE_COUNT = 700;
 const colorList = [
   '#1565c0',
   '#5e92f3',
@@ -50,7 +50,7 @@ const colorList = [
 @Injectable()
 export class D3HelperService {
   // Force ticked outgoing streams of data
-  private graphData:  Subject<{ relationships: SimulationLinkDatum<GraphNode>[], entities: GraphNode[] }> = new Subject();
+  private graphData: Subject<{ relationships: SimulationLinkDatum<GraphNode>[], entities: GraphNode[] }> = new Subject();
   linksAndNodes = this.graphData.shareReplay();
   entitiesAndDetails: Observable<{ entity: GraphNode, relCount: number }[]>;
 
@@ -64,17 +64,21 @@ export class D3HelperService {
     }
 
     const generatedLinks: SimulationLinkDatum<GraphNode>[] = [];
-    for (let i = 0; i < LINK_COUNT; i = generatedLinks.length) {
-      const source = generatedNodes[Math.floor(Math.random() * LINK_COUNT)];
-      const target = generatedNodes[Math.floor(Math.random() * LINK_COUNT)];
-      if (!_.find(generatedLinks, link => {
-        return (
-          link.source === source && link.target === target ||
-          link.source === target && link.target === source
-        );
-      })) {
-        generatedLinks.push({ source, target });
-      }
+    for (let i = 0; i < NODE_COUNT; i++) {
+      let found = false;
+      const source: GraphNode = generatedNodes[i];
+      let target: GraphNode;
+      do {
+        target = generatedNodes[Math.floor(Math.random() * NODE_COUNT)];
+        found = !!_.find(generatedLinks, link => {
+          return (
+            link.source === source && link.target === target ||
+            link.source === target && link.target === source ||
+            source === target
+          );
+        })
+      } while (found)
+      generatedLinks.push({ source, target });
     }
 
     this.sizes.subscribe(({ width, height }) => {
@@ -82,6 +86,8 @@ export class D3HelperService {
     })
 
     this.entitiesAndDetails = this.linksAndNodes
+      // Big performance bump on this line
+      .distinctUntilChanged(_.isEqual)
       .map(relsAndEnts => {
         const entDetails: { entity: GraphNode, relCount: number }[] = [];
         relsAndEnts.entities.forEach(entity => {
@@ -100,7 +106,7 @@ export class D3HelperService {
   // pushes a new array to relationships and entities
   updateForce(entities: GraphNode[], relationships: SimulationLinkDatum<GraphNode>[], height: number, width: number) {
     this.forceSimulation = forceSimulation(entities)
-      .force('charge', forceManyBody().strength(-25))
+      .force('charge', forceManyBody().strength(-45))
       .force('center', forceCenter(width / 2, height / 2))
       .force('x', forceX())
       .force('y', forceY())
@@ -110,6 +116,6 @@ export class D3HelperService {
       })
       .force('link', forceLink(relationships)
         // .id((node: GraphNode) => node.index.toString())
-        .distance(0).strength(1));
+        .distance(0).strength(.5));
   }
 }

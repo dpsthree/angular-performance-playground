@@ -4,6 +4,12 @@ body {
   font-family: Roboto,"Helvetica Neue",sans-serif;
   overflow: hidden;
 }
+
 .mat-sidenav-backdrop.mat-sidenav-shown {
   background-color: rgba(0,0,0,0);
+}
+
+canvas {
+  position: fixed;
+  right: 0px;
 }

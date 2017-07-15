@@ -1,0 +1,8 @@
+.container {
+  height: calc(100vh - 16px);
+  overflow: hidden;
+}
+
+circle {
+  fill-opacity: 1;
+}
