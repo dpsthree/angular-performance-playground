@@ -41,9 +41,7 @@ export interface GraphNode extends SimulationNodeDatum {
   color: string;
 }
 
-const NODE_COUNT = 500;
-const LOWER_CHARGE = -0;
-const UPPER_CHARGE = -75;
+const NODE_COUNT = 1000;
 const colorList = [
   '#1565c0',
   '#5e92f3',
@@ -60,7 +58,7 @@ export class D3HelperService {
   private worker = new Worker('assets/worker.js');
   private id = 0;
   // Force ticked outgoing streams of data
-  linksAndNodes = this.graphData.throttleTime(30);
+  linksAndNodes = this.graphData.throttleTime(15);
   entitiesAndDetails: Observable<{ entity: GraphNode, relCount: number }[]>;
   searchValue = new BehaviorSubject('');
 
@@ -99,7 +97,7 @@ export class D3HelperService {
       this.updateForce(generatedNodes, generatedLinks, height, width);
     })
 
-    this.entitiesAndDetails = this.linksAndNodes
+    this.entitiesAndDetails = Observable.combineLatest(this.linksAndNodes
       // Big performance bump on this line
       .take(1)
       .map(relsAndEnts => {
@@ -109,7 +107,9 @@ export class D3HelperService {
           entDetails.push({ entity, relCount: rels.length });
         })
         return entDetails;
-      })
+      }),
+      this.searchValue,
+      (entDetails, search) => entDetails.filter(ent => ent.entity.displayName.indexOf(search) > -1))
   }
 
   updateSearch(value: string) {

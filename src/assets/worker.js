@@ -13,7 +13,7 @@ onmessage = function (event) {
 
 
   var simulation = d3.forceSimulation(entities)
-    .force('charge', d3.forceManyBody().strength(-50))
+    .force('charge', d3.forceManyBody().strength(-30))
     .force('center', d3.forceCenter(width / 2, height / 2))
     .force('x', d3.forceX())
     .force('y', d3.forceY())
