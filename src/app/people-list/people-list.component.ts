@@ -12,8 +12,12 @@ import { D3HelperService, GraphNode } from '../d3-helper.service';
 })
 export class PeopleListComponent {
   entities: Observable<{ entity: GraphNode, relCount: number }[]>;
-
+  search = this.d3Helper.searchValue;
   constructor(private d3Helper: D3HelperService) {
     this.entities = d3Helper.entitiesAndDetails;
+  }
+
+  searchChanged(value: string) {
+    this.d3Helper.updateSearch(value);
   }
 }

@@ -1,7 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { MdCardModule, MdListModule, MdSidenavModule } from '@angular/material';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MdCardModule, MdListModule, MdSidenavModule, MdInputModule } from '@angular/material';
 import { NgModule } from '@angular/core';
 
 import { D3HelperService } from './d3-helper.service';
@@ -25,7 +26,9 @@ import { PeopleListDisplayComponent } from './people-list/people-list.display.co
     FlexLayoutModule,
     MdCardModule,
     MdListModule,
-    MdSidenavModule
+    MdSidenavModule,
+    MdInputModule,
+    ReactiveFormsModule
   ],
   providers: [D3HelperService],
   bootstrap: [AppComponent]

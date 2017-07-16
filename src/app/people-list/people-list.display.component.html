@@ -1,8 +1,11 @@
 <md-card>
-    <md-card-title>People</md-card-title>
-    <md-card-content>
-      <md-list>
-        <md-list-item *ngFor="let entry of entities; trackBy:trackEntsBy">{{entry.relCount}} - {{entry.entity.displayName}}</md-list-item>
-      </md-list>
-    </md-card-content>
+  <md-card-title>People</md-card-title>
+  <md-card-content>
+    <md-input-container>
+      <input mdInput [formControl]="searchControl" placeholder="Search">
+    </md-input-container>
+    <md-list>
+      <md-list-item *ngFor="let entry of entities; trackBy:trackEntsBy">{{entry.relCount}} - {{entry.entity.displayName}}</md-list-item>
+    </md-list>
+  </md-card-content>
 </md-card>

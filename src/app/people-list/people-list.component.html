@@ -1,4 +1,6 @@
 <app-people-list-display
   [entities]="entities | async"
+  [search]="search | async"
+  (searchChanged)="searchChanged($event)"
 >
 </app-people-list-display>

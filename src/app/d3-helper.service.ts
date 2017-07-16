@@ -15,6 +15,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/shareReplay'
 import 'rxjs/add/operator/distinctUntilChanged'
+import 'rxjs/add/observable/combineLatest'
 import * as _ from 'lodash';
 import * as faker from 'faker';
 
@@ -51,13 +52,14 @@ const colorList = [
 
 @Injectable()
 export class D3HelperService {
-  // Force ticked outgoing streams of data
   private graphData: Subject<{ relationships: SimulationLinkDatum<GraphNode>[], entities: GraphNode[] }> = new Subject();
-  linksAndNodes = this.graphData.shareReplay();
-  entitiesAndDetails: Observable<{ entity: GraphNode, relCount: number }[]>;
-
   private forceSimulation: Simulation<GraphNode, SimulationLinkDatum<GraphNode>>;
   private sizes: BehaviorSubject<{ width: number, height: number }> = new BehaviorSubject({ width: 100, height: 100 });
+
+  // Force ticked outgoing streams of data
+  linksAndNodes = this.graphData.shareReplay();
+  entitiesAndDetails: Observable<{ entity: GraphNode, relCount: number }[]>;
+  searchValue = new BehaviorSubject('');
 
   constructor() {
     const generatedNodes: GraphNode[] = []
@@ -87,7 +89,7 @@ export class D3HelperService {
       this.updateForce(generatedNodes, generatedLinks, height, width);
     })
 
-    this.entitiesAndDetails = this.linksAndNodes
+    this.entitiesAndDetails = Observable.combineLatest(this.linksAndNodes
       // Big performance bump on this line
       .distinctUntilChanged(_.isEqual)
       .map(relsAndEnts => {
@@ -98,7 +100,15 @@ export class D3HelperService {
         })
         return entDetails;
       }).distinctUntilChanged(_.isEqual)
-      .shareReplay();
+      .shareReplay(),
+      this.searchValue,
+      (ents: { entity: GraphNode, relCount: number }[], search) => {
+        return ents.filter(ent => ent.entity.displayName.indexOf(search) > -1)
+       });
+  }
+
+  updateSearch(value: string) {
+    this.searchValue.next(value);
   }
 
   updateSize(newSize: { height: number, width: number }) {
