@@ -15,7 +15,7 @@ export class GraphViewerComponent {
   entities: Observable<GraphNode[]>;
 
   constructor(private d3Helper: D3HelperService) {
-    this.relationships = d3Helper.linksAndNodes.map(({ relationships, entities }) =>  relationships);
+    this.relationships = d3Helper.linksAndNodes.map(({ relationships, entities }) => relationships);
     this.entities = d3Helper.linksAndNodes.map(({ relationships, entities }) => entities);
   }
 }

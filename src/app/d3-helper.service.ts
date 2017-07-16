@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ApplicationRef } from '@angular/core';
 import {
   forceSimulation,
   Simulation,
@@ -14,6 +14,9 @@ import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/shareReplay'
+import 'rxjs/add/operator/take'
+import 'rxjs/add/operator/do'
+import 'rxjs/add/operator/throttleTime'
 import 'rxjs/add/operator/distinctUntilChanged'
 import 'rxjs/add/observable/combineLatest'
 import * as _ from 'lodash';
@@ -38,7 +41,7 @@ export interface GraphNode extends SimulationNodeDatum {
   color: string;
 }
 
-const NODE_COUNT = 700;
+const NODE_COUNT = 500;
 const LOWER_CHARGE = -0;
 const UPPER_CHARGE = -75;
 const colorList = [
@@ -53,15 +56,15 @@ const colorList = [
 @Injectable()
 export class D3HelperService {
   private graphData: Subject<{ relationships: SimulationLinkDatum<GraphNode>[], entities: GraphNode[] }> = new Subject();
-  private forceSimulation: Simulation<GraphNode, SimulationLinkDatum<GraphNode>>;
   private sizes: BehaviorSubject<{ width: number, height: number }> = new BehaviorSubject({ width: 100, height: 100 });
-
+  private worker = new Worker('assets/worker.js');
+  private id = 0;
   // Force ticked outgoing streams of data
-  linksAndNodes = this.graphData.shareReplay();
+  linksAndNodes = this.graphData.throttleTime(30);
   entitiesAndDetails: Observable<{ entity: GraphNode, relCount: number }[]>;
   searchValue = new BehaviorSubject('');
 
-  constructor() {
+  constructor(private ar: ApplicationRef) {
     const generatedNodes: GraphNode[] = []
     for (let i = 0; i < NODE_COUNT; i++) {
       generatedNodes.push({ displayName: faker.name.findName(), index: i, color: colorList[Math.floor(Math.random() * 6)] });
@@ -85,13 +88,20 @@ export class D3HelperService {
       generatedLinks.push({ source, target });
     }
 
+    this.worker.onmessage = (event => {
+      if (this.id === event.data.id) {
+        this.graphData.next({ entities: event.data.entities, relationships: event.data.relationships });
+        this.ar.tick();
+      }
+    })
+
     this.sizes.subscribe(({ width, height }) => {
       this.updateForce(generatedNodes, generatedLinks, height, width);
     })
 
-    this.entitiesAndDetails = Observable.combineLatest(this.linksAndNodes
+    this.entitiesAndDetails = this.linksAndNodes
       // Big performance bump on this line
-      .distinctUntilChanged(_.isEqual)
+      .take(1)
       .map(relsAndEnts => {
         const entDetails: { entity: GraphNode, relCount: number }[] = [];
         relsAndEnts.entities.forEach(entity => {
@@ -99,12 +109,7 @@ export class D3HelperService {
           entDetails.push({ entity, relCount: rels.length });
         })
         return entDetails;
-      }).distinctUntilChanged(_.isEqual)
-      .shareReplay(),
-      this.searchValue,
-      (ents: { entity: GraphNode, relCount: number }[], search) => {
-        return ents.filter(ent => ent.entity.displayName.indexOf(search) > -1)
-       });
+      })
   }
 
   updateSearch(value: string) {
@@ -118,17 +123,7 @@ export class D3HelperService {
   // Creates a new force directed graph
   // pushes a new array to relationships and entities
   updateForce(entities: GraphNode[], relationships: SimulationLinkDatum<GraphNode>[], height: number, width: number) {
-    this.forceSimulation = forceSimulation(entities)
-      .force('charge', forceManyBody().strength(-50))
-      .force('center', forceCenter(width / 2, height / 2))
-      .force('x', forceX())
-      .force('y', forceY())
-      .alphaMin(.0001)
-      .alphaDecay(0.0005)
-      .on('tick', () => {
-        this.graphData.next({ relationships: [...relationships], entities: [...entities] });
-      })
-      .force('link', forceLink(relationships)
-        .distance(0).strength(.5));
+    this.id++;
+    this.worker.postMessage({ entities, relationships, height, width, id: this.id })
   }
 }
