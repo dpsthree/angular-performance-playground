@@ -1,5 +1,4 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { SimulationLinkDatum } from 'd3-force';
 import { Observable } from 'rxjs/Observable';
 
 import { D3HelperService, GraphNode } from '../d3-helper.service';
@@ -8,14 +7,13 @@ import { D3HelperService, GraphNode } from '../d3-helper.service';
   selector: 'app-people-list',
   templateUrl: './people-list.component.html',
   styleUrls: ['./people-list.component.css'],
+  // Don't run change detection on this component
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PeopleListComponent {
-  entities: Observable<{ entity: GraphNode, relCount: number }[]>;
+  entities: Observable<{ entity: GraphNode, relCount: number }[]> = this.d3Helper.entitiesAndDetails;
   search = this.d3Helper.searchValue;
-  constructor(private d3Helper: D3HelperService) {
-    this.entities = d3Helper.entitiesAndDetails;
-  }
+  constructor(private d3Helper: D3HelperService) {}
 
   searchChanged(value: string) {
     this.d3Helper.updateSearch(value);

@@ -55,7 +55,7 @@ export class D3HelperService {
 
   constructor(private ar: ApplicationRef, http: Http) {
     // When the worker sends up a new message make sure
-    // that it is from the latest data set if so, send the results downstream
+    // that it is from the latest data set. If so, send the results downstream
     // finally, inform Angular that an event happened outside of zones
     this.worker.onmessage = (event => {
       if (this.id === event.data.id) {
