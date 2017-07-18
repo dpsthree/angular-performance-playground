@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
-import { MdInputModule, MdTableModule, MdListModule, MdSortModule } from '@angular/material';
+import { MdInputModule, MdTableModule, MdListModule, MdSortModule, MdSliderModule } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -21,6 +21,7 @@ const gridRoutes: Routes = [
     CdkTableModule,
     ReactiveFormsModule,
     MdListModule,
+    MdSliderModule,
     MdSortModule
   ],
   declarations: [

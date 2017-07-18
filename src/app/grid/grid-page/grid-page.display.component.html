@@ -1,8 +1,9 @@
  <div class="example-container mat-elevation-z8">
   <div class="example-header">
-    <md-input-container floatPlaceholder="never">
-      <input mdInput [formControl]="filter" placeholder="Filter users">
+    <md-input-container>
+      <input mdInput [formControl]="filter" [placeholder]="'Filter ' + simpleDataSource?.length + ' users'">
     </md-input-container>
+    <md-slider [min]="2" [max]="5000" [step]="1" [tickInterval]="250" [value]="count" (input)="updateCount($event)"></md-slider>
   </div>
 
   <md-table #table [trackBy]="trackNodesBy" mdSort [dataSource]="dataSource">
@@ -12,14 +13,9 @@
       <md-cell *cdkCellDef="let row"> {{row.displayName}} </md-cell>
     </ng-container>
 
-    <ng-container cdkColumnDef="xPos">
-      <md-header-cell *cdkHeaderCellDef md-sort-header> X Position </md-header-cell>
-      <md-cell *cdkCellDef="let row"> {{row.x}} </md-cell>
-    </ng-container>
-
-    <ng-container cdkColumnDef="yPos">
-      <md-header-cell *cdkHeaderCellDef md-sort-header> Y Position </md-header-cell>
-      <md-cell *cdkCellDef="let row"> {{row.y}} </md-cell>
+    <ng-container cdkColumnDef="relCount">
+      <md-header-cell *cdkHeaderCellDef md-sort-header> Number of Connections </md-header-cell>
+      <md-cell *cdkCellDef="let row"> {{row.relCount}} </md-cell>
     </ng-container>
 
     <ng-container cdkColumnDef="color">

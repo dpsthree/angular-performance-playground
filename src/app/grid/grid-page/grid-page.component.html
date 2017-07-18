@@ -1,4 +1,6 @@
 <app-grid-page-display
   [entities]="entities | async"
+  [count]="count | async"
+  (countChanged)="countChanged($event)"
 >
 </app-grid-page-display>

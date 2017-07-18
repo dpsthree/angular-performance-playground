@@ -126,7 +126,6 @@ export class D3HelperService {
 
   // Fires up a new web worker thread to obtain force calculations
   updateForce(entities: GraphNode[], relationships: SimulationLinkDatum<GraphNode>[], height: number, width: number, search: string) {
-    console.log(height, width);
     this.worker.postMessage({ entities, relationships, height, width, search, type: 'restart' })
   }
 }

@@ -1,6 +1,6 @@
-import { Component, Input, ViewChild, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, Output, ViewChild, EventEmitter, OnInit } from '@angular/core';
 import { DataSource } from '@angular/cdk';
-import { MdSort } from '@angular/material';
+import { MdSort, MdSliderChange } from '@angular/material';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { FormControl } from '@angular/forms';
@@ -16,17 +16,23 @@ import { GraphNode } from '../../d3-helper.service';
 @Component({
   selector: 'app-grid-page-display',
   templateUrl: './grid-page.display.component.html',
-  styleUrls: ['./grid-page.display.component.css']
+  styleUrls: ['./grid-page.display.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class GridPageDisplayComponent implements OnInit {
-  @Input() set entities(value: { entities: GraphNode[], relationships: SimulationLinkDatum<GraphNode>[] }) {
-    if (value && value.entities) {
-      this.exampleDatabase.updateEntities(value.entities);
+  @Input() set entities(value: { entity: GraphNode, relCount: number }[]) {
+    if (value) {
+      const values = value.map(entry => ({ ...entry.entity, relCount: entry.relCount }));
+      this.simpleDataSource = values;
+      this.exampleDatabase.updateEntities(values);
     }
   };
+  simpleDataSource: UserData[];
   @ViewChild(MdSort) sort: MdSort;
-  displayedColumns = ['displayName', 'xPos', 'yPos', 'color'];
+  @Input() count: number;
+  @Output() countChanged = new EventEmitter<number>();
+  displayedColumns = ['displayName', 'relCount', 'color'];
   exampleDatabase = new ExampleDatabase();
   dataSource: ExampleDataSource | null;
   filter: FormControl = new FormControl();
@@ -48,13 +54,15 @@ export class GridPageDisplayComponent implements OnInit {
   trackNodesBy(index: number, node: UserData) {
     return node.displayName;
   }
+
+  updateCount(value: MdSliderChange) {
+    this.countChanged.emit(value.value);
+  }
 }
 
 export interface UserData {
   index?: number;
   displayName: string;
-  x?: number;
-  y?: number;
   color: string;
   [key: string]: any;
 }

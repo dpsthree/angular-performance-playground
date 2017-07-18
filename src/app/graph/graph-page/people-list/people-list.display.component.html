@@ -1,8 +1,8 @@
 <md-card>
-  <md-card-title>People</md-card-title>
+  <md-card-title>People - {{entities?.length * 8}} total bindings </md-card-title>
   <md-card-content>
     <md-input-container>
-      <input mdInput [formControl]="searchControl" placeholder="Search">
+      <input mdInput [formControl]="searchControl" [placeholder]="'Search ' + entities?.length + ' entries'">
     </md-input-container>
     <md-slider [min]="2" [max]="1000" [step]="1" [tickInterval]="250" [value]="count" (input)="updateCount($event)"></md-slider>
     <md-list>
