@@ -5,9 +5,6 @@ const bodyParser = require("body-parser");
 const faker = require('faker');
 const _ = require('lodash');
 
-// How many entities to display
-const NODE_COUNT = 1000;
-
 // Collection of colors to randomly assign
 const colorList = [
   '#1565c0',
@@ -18,33 +15,37 @@ const colorList = [
   '#b0003a'
 ]
 
-// use faker to create NODE_COUNT random people
+// use faker to create count random people
 // associate them with a color and add to list
-const generatedNodes = []
-for (let i = 0; i < NODE_COUNT; i++) {
-  generatedNodes.push({ displayName: faker.name.findName(), index: i, color: colorList[Math.floor(Math.random() * 6)] });
-}
-
-// For each entity, make sure that they have a relationship.
-// That relationship can not be to themselves and cannot
-// equal to a relationships that was previously generated
-const generatedLinks = [];
-for (let i = 0; i < NODE_COUNT; i++) {
-  let found = false;
-
-  const source = generatedNodes[i];
-  let target;
-  do {
-    target = generatedNodes[Math.floor(Math.random() * NODE_COUNT)];
-    found = !!_.find(generatedLinks, link => {
-      return (
-        link.source === source && link.target === target ||
-        link.source === target && link.target === source ||
-        source === target
-      );
-    })
-  } while (found)
-  generatedLinks.push({ source: source.displayName, target: target.displayName });
+function generatedData(count) {
+  
+  const entities = []
+  for (let i = 0; i < count; i++) {
+    entities.push({ displayName: faker.name.findName(), index: i, color: colorList[Math.floor(Math.random() * 6)] });
+  }
+  
+  // For each entity, make sure that they have a relationship.
+  // That relationship can not be to themselves and cannot
+  // equal to a relationships that was previously generated
+  const relationships = [];
+  for (let i = 0; i < count; i++) {
+    let found = false;
+    
+    const source = entities[i];
+    let target;
+    do {
+      target = entities[Math.floor(Math.random() * count)];
+      found = !!_.find(relationships, link => {
+        return (
+          link.source === source && link.target === target ||
+          link.source === target && link.target === source ||
+          source === target
+        );
+      })
+    } while (found)
+    relationships.push({ source: source.displayName, target: target.displayName });
+  }
+  return { entities, relationships };
 }
 
 // Create a server
@@ -61,14 +62,24 @@ app.set("json spaces", 2);
 // in the dist directory
 app.use(express.static(__dirname + '/dist'));
 
-// Respond with the genrated data
+// Return a number of nodes as specified
+app.get('/v1/details/:count', (req, res) => {
+  if (req.params.count && req.params.count <= 5000 && req.params.count >= 0) {
+    res.type('json').json(generatedData(req.params.count));
+  } else {
+    // TODO make this a 500
+    res.type('json').json(generatedData(0));
+  }
+})
+
+// Respond with the generated data
 app.get('/v1/details', (req, res) => {
-  res.type('json').json({entities: generatedNodes, relationships: generatedLinks})
+  res.type('json').json(generatedData(1000));
 })
 
 // For all remaining GET requests, send back index.html
 // so that PathLocationStrategy can be used
-app.get('/*', function(req, res) {
+app.get('/*', function (req, res) {
   res.sendFile(path.join(__dirname + '/dist/index.html'));
 });
 

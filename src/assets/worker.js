@@ -9,37 +9,66 @@ importScripts("https://d3js.org/d3-quadtree.v1.min.js");
 importScripts("https://d3js.org/d3-timer.v1.min.js");
 importScripts("https://d3js.org/d3-force.v1.min.js");
 
-// The following is called each time the size of the SVG graph
-// changes in the main process
+// This data should persist between messages
+var simulation, entities, relationships
+var filteredEntities, filteredRelationships
+
 onmessage = function (event) {
 
   // Unpack the various bits of data
-  var entities = event.data.entities,
-    relationships = event.data.relationships,
-    width = event.data.width,
-    height = event.data.height,
-    // Return with every postMessage so that the caller knows
-    // which response is associated with which input
-    id = event.data.id;
+  // Search and type are used on every message
+  search = event.data.search,
+    type = event.data.type;
 
-  // Create a new simulation and return the results each tick
-  // of the force calculation
-  // See d3 force simulation documentation for more details
-  // (https://github.com/d3/d3-force)
-  var simulation = d3.forceSimulation(entities)
-    .force('charge', d3.forceManyBody().strength(-30))
-    .force('center', d3.forceCenter(width / 2, height / 2))
-    .force('x', d3.forceX())
-    .force('y', d3.forceY())
-    // really low alpha min and decay result in long running
-    // force graph, good for ambient motion during presentation
-    .alphaMin(.0001)
-    .alphaDecay(0.0005)
-    .on('tick', () => {
-      postMessage({ relationships: [...relationships], entities: [...entities], id });
-    })
-    .force('link', d3.forceLink(relationships)
-      // Associate links with nodes by way of display name  
-      .id(node => node.displayName)  
-      .distance(0).strength(.5));
+  // The following will recreate the simulation
+  // It also creates new values for most of the persistant data
+  if (type && type === 'restart') {
+
+    entities = event.data.entities;
+    relationships = event.data.relationships;
+    width = event.data.width;
+    height = event.data.height;
+
+    // We need d3 to associate the links with nodes before filterind
+    filteredEntities = undefined;
+    filteredRelationships = undefined;
+
+    // Create a new simulation and return the results each tick
+    // of the force calculation
+    // See d3 force simulation documentation for more details
+    // (https://github.com/d3/d3-force)
+    simulation = d3.forceSimulation(entities)
+      .force('charge', d3.forceManyBody().strength(-30))
+      .force('center', d3.forceCenter(width / 2, height / 2))
+      .force('x', d3.forceX())
+      .force('y', d3.forceY())
+      // really low alpha min and decay result in long running
+      // force graph, good for ambient motion during presentation
+      .alphaMin(.0001)
+      .alphaDecay(0.0005)
+      .on('tick', () => {
+        // Now that d3 has moved the node objects into the links perform a filter
+        // but only once
+        if (!filteredEntities) {
+          filteredEntities = entities.filter(ent => ent.displayName.indexOf(search) > -1)
+          filteredRelationships = relationships
+            .filter(rel => filteredEntities.find(ent => ent === rel.source) && filteredEntities.find(ent => ent === rel.target));
+        }
+
+        // Return the results to the client
+        postMessage({ relationships: filteredRelationships, entities: filteredEntities });
+      })
+      .force('link', d3.forceLink(relationships)
+        // Associate links with nodes by way of display name  
+        .id(node => node.displayName)
+        .distance(0).strength(.5));
+  }
+
+  // When searching we want to continue forcing as usual, but we want to narrow the set
+  // that is returned to the client
+  if (type && type === 'filter') {
+    filteredEntities = entities.filter(ent => ent.displayName.indexOf(search) > -1)
+    filteredRelationships = relationships
+      .filter(rel => filteredEntities.find(ent => ent === rel.source) && filteredEntities.find(ent => ent === rel.target));
+  }
 };

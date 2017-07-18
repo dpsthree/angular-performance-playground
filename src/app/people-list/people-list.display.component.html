@@ -4,6 +4,7 @@
     <md-input-container>
       <input mdInput [formControl]="searchControl" placeholder="Search">
     </md-input-container>
+    <md-slider [min]="2" [max]="1000" [step]="1" [tickInterval]="250" [value]="count" (input)="updateCount($event)"></md-slider>
     <md-list>
       <md-list-item *ngFor="let entry of entities; trackBy:trackEntsBy">{{entry.relCount}} - {{entry.entity.displayName}}</md-list-item>
     </md-list>

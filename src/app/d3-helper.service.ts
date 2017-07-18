@@ -5,9 +5,12 @@ import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import * as _ from 'lodash';
-import 'rxjs/add/operator/take'
-import 'rxjs/add/operator/throttleTime'
-import 'rxjs/add/observable/combineLatest'
+import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/throttleTime';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/combineLatest';
+import 'rxjs/add/operator/withLatestFrom';
+import 'rxjs/add/operator/share';
 
 /**
  * Used to abstract the complexities and concerns of D3
@@ -28,6 +31,8 @@ export interface GraphNode extends SimulationNodeDatum {
   color: string;
 }
 
+const INITIAL_NODE_COUNT = 250;
+
 @Injectable()
 export class D3HelperService {
   // Hold the internal representation of the data
@@ -40,9 +45,8 @@ export class D3HelperService {
   // Webworker that contains the force calculation algorithm
   private worker = new Worker('assets/worker.js');
 
-  // ID used to track results from webworkers
-  // We are only interested in one result set at a time
-  private id = 0;
+  // Data as it arrives from the server
+  private serverData: Observable<{ entities: GraphNode[], relationships: SimulationLinkDatum<GraphNode>[] }>;
 
   // Throttle Updates so as not to overwhelm change detection cycles
   linksAndNodes = this.graphData.throttleTime(15);
@@ -53,34 +57,49 @@ export class D3HelperService {
   // Holds the user supplied search term
   searchValue = new BehaviorSubject('');
 
+  // Number of nodes and links to fetch as a number
+  countValue = new BehaviorSubject(INITIAL_NODE_COUNT);
+
   constructor(private ar: ApplicationRef, http: Http) {
-    // When the worker sends up a new message make sure
-    // that it is from the latest data set. If so, send the results downstream
-    // finally, inform Angular that an event happened outside of zones
+
+    // Grab the data from the server
+    this.serverData = this.countValue
+      .switchMap(count => http.get('/v1/details/' + count)
+        .map(res => res.json())).share();
+
+    // We need to ease back pressure on the digest cycle
+    // Tweak this number to see how fast the digest cycle can process on your machine
+    this.linksAndNodes = this.graphData.throttleTime(15);
+
+    // After sending data downstream inform Angular that an event happened outside of zones
     this.worker.onmessage = (event => {
-      if (this.id === event.data.id) {
-        this.graphData.next({ entities: event.data.entities, relationships: event.data.relationships });
-        this.ar.tick();
-      }
+      this.graphData.next({ entities: event.data.entities, relationships: event.data.relationships });
+      this.ar.tick();
     })
 
     // Watch for both the http result to arrive and the current graph size to submit a new
     // data set for force calculations
-    Observable.combineLatest(http.get('/v1/details').map(res => res.json()), this.sizes,
-      ({ entities, relationships }, { width, height }) => {
-        this.updateForce(entities, relationships, height, width);
+    Observable.combineLatest(
+      this.serverData,
+      this.sizes
+    ).withLatestFrom(
+      // We also want to consider the latest search value but we don't want a search update
+      // to trigger a restart of the graph
+      this.searchValue,
+      ([{ entities, relationships }, { width, height }], search) => {
+        this.updateForce(entities, relationships, height, width, search);
       }).subscribe();
 
     // Given data and search value, combine them together to produce a filtered list containing
     // the family calculation
-    this.entitiesAndDetails = Observable.combineLatest(this.linksAndNodes
-      // Big performance bump on this line
-      .take(1)
+    this.entitiesAndDetails = Observable.combineLatest(
+      this.serverData
       .map(relsAndEnts => {
         const entDetails: { entity: GraphNode, relCount: number }[] = [];
         relsAndEnts.entities.forEach(entity => {
           // Find out how many first level connections this entity has
-          const rels = relsAndEnts.relationships.filter(rel => rel.source === entity || rel.target === entity);
+          const rels = relsAndEnts.relationships
+            .filter(rel => rel.source === entity.displayName || rel.target === entity.displayName);
           entDetails.push({ entity, relCount: rels.length });
         })
         return entDetails;
@@ -92,6 +111,7 @@ export class D3HelperService {
   // Submit a new search value down the pipeline
   updateSearch(value: string) {
     this.searchValue.next(value);
+    this.worker.postMessage({ search: value, type: 'filter' });
   }
 
   // Submit a new graph size down the pipeline
@@ -99,9 +119,13 @@ export class D3HelperService {
     this.sizes.next(newSize);
   }
 
+  // Request a new data set
+  updateCount(count: number) {
+    this.countValue.next(count);
+  }
+
   // Fires up a new web worker thread to obtain force calculations
-  updateForce(entities: GraphNode[], relationships: SimulationLinkDatum<GraphNode>[], height: number, width: number) {
-    this.id++;
-    this.worker.postMessage({ entities, relationships, height, width, id: this.id })
+  updateForce(entities: GraphNode[], relationships: SimulationLinkDatum<GraphNode>[], height: number, width: number, search: string) {
+    this.worker.postMessage({ entities, relationships, height, width, search, type: 'restart' })
   }
 }
