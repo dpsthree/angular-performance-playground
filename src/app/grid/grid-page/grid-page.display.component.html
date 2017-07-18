@@ -1,40 +1,33 @@
-<div class="example-container mat-elevation-z8">
+ <div class="example-container mat-elevation-z8">
   <div class="example-header">
     <md-input-container floatPlaceholder="never">
       <input mdInput [formControl]="filter" placeholder="Filter users">
     </md-input-container>
   </div>
 
-  <md-table #table [dataSource]="dataSource">
+  <md-table #table [trackBy]="trackNodesBy" mdSort [dataSource]="dataSource">
 
-    <!--- Note that these columns can be defined in any order.
-          The actual rendered columns are set as a property on the row definition" -->
-
-    <!-- ID Column -->
     <ng-container cdkColumnDef="displayName">
-      <md-header-cell *cdkHeaderCellDef> Display Name </md-header-cell>
+      <md-header-cell *cdkHeaderCellDef md-sort-header> Display Name </md-header-cell>
       <md-cell *cdkCellDef="let row"> {{row.displayName}} </md-cell>
     </ng-container>
 
-    <!-- Progress Column -->
     <ng-container cdkColumnDef="xPos">
-      <md-header-cell *cdkHeaderCellDef> X Position </md-header-cell>
+      <md-header-cell *cdkHeaderCellDef md-sort-header> X Position </md-header-cell>
       <md-cell *cdkCellDef="let row"> {{row.x}} </md-cell>
     </ng-container>
 
-    <!-- Name Column -->
     <ng-container cdkColumnDef="yPos">
-      <md-header-cell *cdkHeaderCellDef> Y Position </md-header-cell>
+      <md-header-cell *cdkHeaderCellDef md-sort-header> Y Position </md-header-cell>
       <md-cell *cdkCellDef="let row"> {{row.y}} </md-cell>
     </ng-container>
 
-    <!-- Color Column -->
     <ng-container cdkColumnDef="color">
-      <md-header-cell *cdkHeaderCellDef> Color </md-header-cell>
+      <md-header-cell *cdkHeaderCellDef md-sort-header> Color </md-header-cell>
       <md-cell *cdkCellDef="let row" [style.color]="row.color"> {{row.color}} </md-cell>
     </ng-container>
 
     <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
     <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
   </md-table>
-</div>
+</div> 
