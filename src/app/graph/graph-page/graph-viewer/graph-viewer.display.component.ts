@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import { SimulationLinkDatum } from 'd3-force';
 
-import { D3HelperService, GraphNode } from '../d3-helper.service';
+import { D3HelperService, GraphNode } from '../../../d3-helper.service';
 
 @Component({
   selector: 'app-graph-viewer-display',

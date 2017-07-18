@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { D3HelperService, GraphNode } from '../d3-helper.service';
+import { D3HelperService, GraphNode } from '../../../d3-helper.service';
 
 @Component({
   selector: 'app-people-list',

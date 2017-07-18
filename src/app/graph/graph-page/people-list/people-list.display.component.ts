@@ -4,7 +4,7 @@ import { FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 import { MdSliderChange } from '@angular/material';
 
-import { D3HelperService, GraphNode } from '../d3-helper.service';
+import { D3HelperService, GraphNode } from '../../../d3-helper.service';
 
 @Component({
   selector: 'app-people-list-display',

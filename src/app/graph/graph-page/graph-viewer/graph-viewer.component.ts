@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { SimulationLinkDatum } from 'd3-force';
 import { Observable } from 'rxjs/Observable';
 
-import { D3HelperService, GraphNode } from '../d3-helper.service';
+import { D3HelperService, GraphNode } from '../../../d3-helper.service';
 
 @Component({
   selector: 'app-graph-viewer',
