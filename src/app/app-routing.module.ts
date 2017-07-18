@@ -3,7 +3,8 @@ import { Routes, RouterModule, ExtraOptions, PreloadAllModules } from '@angular/
 
 const routes: Routes = [
   { path: '', redirectTo: 'graph', pathMatch: 'full' },
-  { path: 'graph', loadChildren: './graph/graph.module#GraphModule' }
+  { path: 'graph', loadChildren: './graph/graph.module#GraphModule' },
+  { path: 'grid', loadChildren: './grid/grid.module#GridModule' }
 ];
 
 const config: ExtraOptions = {

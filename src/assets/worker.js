@@ -29,7 +29,7 @@ onmessage = function (event) {
     width = event.data.width;
     height = event.data.height;
 
-    // We need d3 to associate the links with nodes before filterind
+    // We need d3 to associate the links with nodes before filtering
     filteredEntities = undefined;
     filteredRelationships = undefined;
 
