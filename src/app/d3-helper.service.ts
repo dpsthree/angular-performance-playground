@@ -43,7 +43,7 @@ export class D3HelperService {
   private sizes: BehaviorSubject<{ width: number, height: number }> = new BehaviorSubject({ width: 100, height: 100 });
 
   // Webworker that contains the force calculation algorithm
-  private worker = new Worker('assets/worker.js');
+  private worker = new Worker('worker.js');
 
   // Data as it arrives from the server
   private serverData: Observable<{ entities: GraphNode[], relationships: SimulationLinkDatum<GraphNode>[] }>;

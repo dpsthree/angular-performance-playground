@@ -8,8 +8,42 @@
       "root": "src",
       "outDir": "dist",
       "assets": [
-        "assets",
-        "favicon.ico"
+        {
+          "glob": "**/*",
+          "input": "./assets/",
+          "output": "./assets/"
+        },
+        {
+          "glob": "favicon.ico",
+          "input": "./",
+          "output": "./"
+        },
+        "worker.js",
+        {
+          "glob": "d3-collection.min.js",
+          "input": "../node_modules/d3-collection/build",
+          "output": "./"
+        },
+        {
+          "glob": "d3-dispatch.min.js",
+          "input": "../node_modules/d3-dispatch/build",
+          "output": "./"
+        },
+        {
+          "glob": "d3-quadtree.min.js",
+          "input": "../node_modules/d3-quadtree/build",
+          "output": "./"
+        },
+        {
+          "glob": "d3-timer.min.js",
+          "input": "../node_modules/d3-timer/build",
+          "output": "./"
+        },
+        {
+          "glob": "d3-force.min.js",
+          "input": "../node_modules/d3-force/build",
+          "output": "./"
+        }
       ],
       "index": "index.html",
       "main": "main.ts",

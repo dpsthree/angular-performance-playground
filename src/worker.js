@@ -3,11 +3,11 @@
 // Perhaps a shared worker would have been better?
 
 // Grab pre-bundled d3 ready to use
-importScripts("https://d3js.org/d3-collection.v1.min.js");
-importScripts("https://d3js.org/d3-dispatch.v1.min.js");
-importScripts("https://d3js.org/d3-quadtree.v1.min.js");
-importScripts("https://d3js.org/d3-timer.v1.min.js");
-importScripts("https://d3js.org/d3-force.v1.min.js");
+importScripts("d3-collection.min.js");
+importScripts("d3-dispatch.min.js");
+importScripts("d3-quadtree.min.js");
+importScripts("d3-timer.min.js");
+importScripts("d3-force.min.js");
 
 // This data should persist between messages
 var simulation, entities, relationships

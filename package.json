@@ -4,13 +4,14 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
+    "sw": "sw-precache --root=dist --config=sw-precache-config.js",
     "start-dev": "ng serve --aot --proxy-config proxy.conf.json",
     "start": "node server.js",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "postinstall": "ng build --aot -prod"
+    "postinstall": "ng build --aot -prod && npm run sw"
   },
   "private": true,
   "dependencies": {
@@ -38,7 +39,7 @@
     "body-parser": "^1.17.2",
     "codelyzer": "~3.0.1",
     "core-js": "^2.4.1",
-    "d3": "^4.9.1",
+    "d3": "^4.10.0",
     "express": "^4.15.3",
     "faker": "^4.1.0",
     "jasmine-core": "~2.6.2",
@@ -56,5 +57,8 @@
     "tslint": "~5.3.2",
     "typescript": "~2.3.3",
     "zone.js": "^0.8.4"
+  },
+  "devDependencies": {
+    "sw-precache": "^5.2.0"
   }
 }
