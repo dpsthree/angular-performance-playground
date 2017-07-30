@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MdCardModule, MdListModule, MdSidenavModule, MdInputModule, MdSliderModule } from '@angular/material';
 import { Routes, RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { GraphPageComponent } from './graph-page/graph-page.component';
 import { GraphViewerComponent } from './graph-page/graph-viewer/graph-viewer.component';
@@ -23,7 +24,8 @@ const graphRoutes: Routes = [
     MdInputModule,
     MdSliderModule,
     RouterModule.forChild(graphRoutes),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FlexLayoutModule
   ],
   declarations: [
     GraphPageComponent,

@@ -3,6 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpModule, Http } from '@angular/http';
 import { NgModule } from '@angular/core';
+import { MdToolbarModule } from '@angular/material';
 
 import { D3HelperService } from './d3-helper.service';
 import { AppComponent } from './app.component';
@@ -18,7 +19,8 @@ import { AppRoutingModule } from './app-routing.module';
     BrowserAnimationsModule,
     FlexLayoutModule,
     HttpModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MdToolbarModule
   ],
   providers: [D3HelperService],
   bootstrap: [AppComponent]
