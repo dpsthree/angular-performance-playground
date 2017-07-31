@@ -48,6 +48,7 @@ export class GridPageDisplayComponent implements OnInit {
   }
 
   ngOnInit() {
+    // TODO: move tranformation to a service
     this.dataSource = new ExampleDataSource(this.exampleDatabase, this.sort);
   }
 
