@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, Input, Output, ViewChild, EventEmitter, OnInit } from '@angular/core';
-import { DataSource } from '@angular/cdk';
+import { DataSource } from '@angular/cdk/table';
 import { MdSort, MdSliderChange } from '@angular/material';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';

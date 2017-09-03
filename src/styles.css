@@ -5,7 +5,7 @@ body {
   overflow: hidden;
 }
 
-.mat-sidenav-backdrop.mat-sidenav-shown {
+.mat-drawer-backdrop.mat-drawer-shown {
   background-color: rgba(0,0,0,0);
 }
 

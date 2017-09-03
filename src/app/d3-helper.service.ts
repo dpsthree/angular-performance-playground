@@ -13,6 +13,7 @@ import 'rxjs/add/operator/withLatestFrom';
 import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/publishReplay';
 import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/map';
 
 /**
  * Used to abstract the complexities and concerns of D3
