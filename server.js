@@ -4,6 +4,7 @@ const fs = require("fs");
 const bodyParser = require("body-parser");
 const faker = require('faker');
 const _ = require('lodash');
+const cors = require('cors');
 
 // Collection of colors to randomly assign
 const colorList = [
@@ -56,6 +57,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+app.use(cors());
 app.set("json spaces", 2);
 
 // Run the app by serving the static files
@@ -63,7 +65,7 @@ app.set("json spaces", 2);
 app.use(express.static(__dirname + '/dist'));
 
 // Return a number of nodes as specified
-app.get('/v1/details/:count', (req, res) => {
+app.get('/v1/details/:count', cors(), (req, res) => {
   if (req.params.count && req.params.count <= 5000 && req.params.count >= 0) {
     res.type('json').json(generatedData(req.params.count));
   } else {
