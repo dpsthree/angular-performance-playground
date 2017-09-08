@@ -6,7 +6,7 @@
     "ng": "ng",
     "sw": "sw-precache --root=dist --config=sw-precache-config.js",
     "start-dev": "ng serve --aot --proxy-config proxy.conf.json",
-    "start": "node dist/server.js",
+    "start": "node server.js",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
