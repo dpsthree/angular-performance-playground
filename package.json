@@ -10,8 +10,7 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "postinstall": "ng build --aot -prod && npm run sw"
+    "e2e": "ng e2e"
   },
   "engines": {
     "npm": "5.2.0"
