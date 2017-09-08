@@ -13,6 +13,9 @@
     "e2e": "ng e2e",
     "postinstall": "ng build --aot -prod && npm run sw"
   },
+  "engines": {
+    "npm": "5.2.0"
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "4.4.0-RC.0",
