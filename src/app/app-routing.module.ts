@@ -2,9 +2,10 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule, ExtraOptions, PreloadAllModules } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'graph', pathMatch: 'full' },
-  { path: 'graph', loadChildren: './graph/graph.module#GraphModule' },
-  { path: 'grid', loadChildren: './grid/grid.module#GridModule' }
+  { path: '', redirectTo: 'app/graph', pathMatch: 'full' },
+  { path: 'app', redirectTo: 'app/graph', pathMatch: 'full' },
+  { path: 'app/graph', loadChildren: './graph/graph.module#GraphModule', pathMatch: 'full' },
+  { path: 'app/grid', loadChildren: './grid/grid.module#GridModule', pathMatch: 'full' }
 ];
 
 const config: ExtraOptions = {
