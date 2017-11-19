@@ -1,12 +1,12 @@
  <div class="example-container mat-elevation-z8">
   <div class="example-header">
     <mat-input-container>
-      <input mdInput [formControl]="filter" [placeholder]="'Filter ' + simpleDataSource?.length + ' users'">
+      <input matInput [formControl]="filter" [placeholder]="'Filter ' + simpleDataSource?.length + ' users'">
     </mat-input-container>
     <mat-slider [min]="2" [max]="5000" [step]="1" [tickInterval]="250" [value]="count" (input)="updateCount($event)"></mat-slider>
   </div>
 
-  <mat-table #table [trackBy]="trackNodesBy" mdSort [dataSource]="dataSource">
+  <mat-table #table [trackBy]="trackNodesBy" matSort [dataSource]="dataSource">
 
     <ng-container cdkColumnDef="displayName">
       <mat-header-cell *cdkHeaderCellDef mat-sort-header> Display Name </mat-header-cell>
