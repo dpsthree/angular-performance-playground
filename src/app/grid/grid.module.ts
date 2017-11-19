@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
-import { MdInputModule, MdTableModule, MdListModule, MdSortModule, MdSliderModule } from '@angular/material';
+import { MatInputModule, MatTableModule, MatListModule, MatSortModule, MatSliderModule } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk/table';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -16,13 +16,13 @@ const gridRoutes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(gridRoutes),
-    MdInputModule,
-    MdTableModule,
+    MatInputModule,
+    MatTableModule,
     CdkTableModule,
     ReactiveFormsModule,
-    MdListModule,
-    MdSliderModule,
-    MdSortModule
+    MatListModule,
+    MatSliderModule,
+    MatSortModule
   ],
   declarations: [
     GridPageComponent,

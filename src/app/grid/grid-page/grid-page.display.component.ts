@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, Input, Output, ViewChild, EventEmitter, OnInit } from '@angular/core';
 import { DataSource } from '@angular/cdk/table';
-import { MdSort, MdSliderChange } from '@angular/material';
+import { MatSort, MatSliderChange } from '@angular/material';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { FormControl } from '@angular/forms';
@@ -29,7 +29,7 @@ export class GridPageDisplayComponent implements OnInit {
     }
   };
   simpleDataSource: UserData[];
-  @ViewChild(MdSort) sort: MdSort;
+  @ViewChild(MatSort) sort: MatSort;
   @Input() count: number;
   @Output() countChanged = new EventEmitter<number>();
   displayedColumns = ['displayName', 'relCount', 'color'];
@@ -56,7 +56,7 @@ export class GridPageDisplayComponent implements OnInit {
     return node.displayName;
   }
 
-  updateCount(value: MdSliderChange) {
+  updateCount(value: MatSliderChange) {
     this.countChanged.emit(value.value);
   }
 }
@@ -88,7 +88,7 @@ export class ExampleDataSource extends DataSource<any> {
   get filter(): string { return this._filterChange.value; }
   set filter(filter: string) { this._filterChange.next(filter); }
 
-  constructor(private _exampleDatabase: ExampleDatabase, private _sort: MdSort) {
+  constructor(private _exampleDatabase: ExampleDatabase, private _sort: MatSort) {
     super();
   }
 
@@ -97,7 +97,7 @@ export class ExampleDataSource extends DataSource<any> {
     const displayDataChanges = [
       this._exampleDatabase.dataChange,
       this._filterChange,
-      this._sort.mdSortChange
+      this._sort.sortChange
     ];
 
     return Observable.merge(...displayDataChanges)

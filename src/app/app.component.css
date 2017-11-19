@@ -3,7 +3,7 @@ app-people-list {
   overflow: scroll;
 }
 
-md-toolbar{
+mat-toolbar{
   z-index: 10;
   position: relative;
 }

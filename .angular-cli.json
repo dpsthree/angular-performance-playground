@@ -20,6 +20,11 @@
         },
         "worker.js",
         {
+          "glob": "lodash.min.js",
+          "input": "../node_modules/lodash",
+          "output": "./"
+        },
+        {
           "glob": "d3-collection.min.js",
           "input": "../node_modules/d3-collection/build",
           "output": "./"

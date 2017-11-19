@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnDest
 import { SimulationLinkDatum } from 'd3-force';
 import { FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
-import { MdSliderChange } from '@angular/material';
+import { MatSliderChange } from '@angular/material';
 
 import { D3HelperService, GraphNode } from '../../../d3-helper.service';
 
@@ -48,7 +48,7 @@ export class PeopleListDisplayComponent implements OnDestroy {
     this.searchChangedSub.unsubscribe();
   }
 
-  updateCount(slider: MdSliderChange) {
+  updateCount(slider: MatSliderChange) {
     this.countChanged.emit(slider.value);
   }
 }

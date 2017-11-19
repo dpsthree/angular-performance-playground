@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MdCardModule, MdListModule, MdSidenavModule, MdInputModule, MdSliderModule } from '@angular/material';
+import { MatCardModule, MatListModule, MatSidenavModule, MatInputModule, MatSliderModule } from '@angular/material';
 import { Routes, RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -18,11 +18,11 @@ const graphRoutes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    MdCardModule,
-    MdListModule,
-    MdSidenavModule,
-    MdInputModule,
-    MdSliderModule,
+    MatCardModule,
+    MatListModule,
+    MatSidenavModule,
+    MatInputModule,
+    MatSliderModule,
     RouterModule.forChild(graphRoutes),
     ReactiveFormsModule,
     FlexLayoutModule
