@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "sw": "sw-precache --root=dist --config=sw-precache-config.js",
-    "start-dev": "ng serve --proxy-config proxy.conf.json",
+    "start-dev": "ng serve --aot --proxy-config proxy.conf.json",    
     "start": "node server.js",
     "build": "ng build",
     "test": "ng test",
@@ -18,7 +18,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "5.0.3",
-    "@angular/cdk": "5.0.0-rc0",
+    "@angular/cdk": "5.0.0-rc.1",
     "@angular/cli": "1.5.4",
     "@angular/common": "5.0.3",
     "@angular/compiler": "5.0.3",
@@ -28,7 +28,7 @@
     "@angular/forms": "5.0.3",
     "@angular/http": "5.0.3",
     "@angular/language-service": "5.0.3",
-    "@angular/material": "5.0.0-rc0",
+    "@angular/material": "5.0.0-rc.1",
     "@angular/platform-browser": "5.0.3",
     "@angular/platform-browser-dynamic": "5.0.3",
     "@angular/router": "5.0.3",

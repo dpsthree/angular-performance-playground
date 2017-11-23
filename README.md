@@ -1,6 +1,7 @@
 # Angular Performance Playground (app)
 
 Example project designed to showcase Angular runtime performance.
+https://www.youtube.com/watch?v=cxqRijt9LbQ
 
 ## Getting Started
 
