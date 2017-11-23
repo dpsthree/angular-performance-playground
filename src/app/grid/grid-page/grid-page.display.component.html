@@ -1,29 +1,29 @@
  <div class="example-container mat-elevation-z8">
   <div class="example-header">
-    <md-input-container>
-      <input mdInput [formControl]="filter" [placeholder]="'Filter ' + simpleDataSource?.length + ' users'">
-    </md-input-container>
-    <md-slider [min]="2" [max]="5000" [step]="1" [tickInterval]="250" [value]="count" (input)="updateCount($event)"></md-slider>
+    <mat-input-container>
+      <input matInput [formControl]="filter" [placeholder]="'Filter ' + simpleDataSource?.length + ' users'">
+    </mat-input-container>
+    <mat-slider [min]="2" [max]="5000" [step]="1" [tickInterval]="250" [value]="count" (input)="updateCount($event)"></mat-slider>
   </div>
 
-  <md-table #table [trackBy]="trackNodesBy" mdSort [dataSource]="dataSource">
+  <mat-table #table [trackBy]="trackNodesBy" matSort [dataSource]="dataSource">
 
     <ng-container cdkColumnDef="displayName">
-      <md-header-cell *cdkHeaderCellDef md-sort-header> Display Name </md-header-cell>
-      <md-cell *cdkCellDef="let row"> {{row.displayName}} </md-cell>
+      <mat-header-cell *cdkHeaderCellDef mat-sort-header> Display Name </mat-header-cell>
+      <mat-cell *cdkCellDef="let row"> {{row.displayName}} </mat-cell>
     </ng-container>
 
     <ng-container cdkColumnDef="relCount">
-      <md-header-cell *cdkHeaderCellDef md-sort-header> Number of Connections </md-header-cell>
-      <md-cell *cdkCellDef="let row"> {{row.relCount}} </md-cell>
+      <mat-header-cell *cdkHeaderCellDef mat-sort-header> Number of Connections </mat-header-cell>
+      <mat-cell *cdkCellDef="let row"> {{row.relCount}} </mat-cell>
     </ng-container>
 
     <ng-container cdkColumnDef="color">
-      <md-header-cell *cdkHeaderCellDef md-sort-header> Color </md-header-cell>
-      <md-cell *cdkCellDef="let row" [style.color]="row.color"> {{row.color}} </md-cell>
+      <mat-header-cell *cdkHeaderCellDef mat-sort-header> Color </mat-header-cell>
+      <mat-cell *cdkCellDef="let row" [style.color]="row.color"> {{row.color}} </mat-cell>
     </ng-container>
 
-    <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
-    <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
-  </md-table>
+    <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *cdkRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
 </div> 

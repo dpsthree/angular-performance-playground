@@ -1,15 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-graph-page',
   templateUrl: './graph-page.component.html',
   styleUrls: ['./graph-page.component.css']
 })
-export class GraphPageComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
-}
+export class GraphPageComponent { }

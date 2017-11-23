@@ -1,12 +1,12 @@
-<md-card>
-  <md-card-title>People - {{entities?.length * 8}} total bindings </md-card-title>
-  <md-card-content>
-    <md-input-container>
-      <input mdInput [formControl]="searchControl" [placeholder]="'Search ' + entities?.length + ' entries'">
-    </md-input-container>
-    <md-slider [min]="2" [max]="1000" [step]="1" [tickInterval]="250" [value]="count" (input)="updateCount($event)"></md-slider>
-    <md-list>
-      <md-list-item *ngFor="let entry of entities; trackBy:trackEntsBy">{{entry.relCount}} - {{entry.entity.displayName}}</md-list-item>
-    </md-list>
-  </md-card-content>
-</md-card>
+<mat-card>
+  <mat-card-title>People - {{entities?.length * 8}} total bindings </mat-card-title>
+  <mat-card-content>
+    <mat-slider [min]="2" [max]="1000" [step]="1" [tickInterval]="250" [value]="count" (input)="updateCount($event)"></mat-slider>
+    <mat-input-container>
+      <input matInput [formControl]="searchControl" [placeholder]="'Search ' + entities?.length + ' entries'">
+    </mat-input-container>
+    <mat-list>
+      <mat-list-item *ngFor="let entry of entities; trackBy:trackEntsBy">{{entry.relCount}} - {{entry.entity.displayName}}</mat-list-item>
+    </mat-list>
+  </mat-card-content>
+</mat-card>

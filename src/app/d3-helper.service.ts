@@ -11,6 +11,8 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/withLatestFrom';
 import 'rxjs/add/operator/share';
+import 'rxjs/add/operator/publishReplay';
+import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 
 /**
@@ -66,7 +68,7 @@ export class D3HelperService {
     // Grab the data from the server
     this.serverData = this.countValue
       .switchMap(count => http.get('/v1/details/' + count)
-        .map(res => res.json())).share();
+        .map(res => res.json())).publishReplay().refCount();
 
     // We need to ease back pressure on the digest cycle
     // Tweak this number to see how fast the digest cycle can process on your machine
@@ -107,6 +109,7 @@ export class D3HelperService {
       }),
       this.searchValue,
       (entDetails, search) => entDetails.filter(ent => ent.entity.displayName.indexOf(search) > -1))
+    .do(data => console.log('testing do', data))
   }
 
   // Submit a new search value down the pipeline

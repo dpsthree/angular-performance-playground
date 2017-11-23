@@ -1,6 +1,6 @@
 import {
   Component, Input, ViewChild,
-  ElementRef, AfterViewChecked, ChangeDetectionStrategy
+  ElementRef, OnInit, ChangeDetectionStrategy
 } from '@angular/core';
 import { SimulationLinkDatum } from 'd3-force';
 
@@ -13,16 +13,13 @@ import { D3HelperService, GraphNode } from '../../../d3-helper.service';
   // Only run change detection when inputs change
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GraphViewerDisplayComponent implements AfterViewChecked {
+export class GraphViewerDisplayComponent implements OnInit {
   @Input() relationships: SimulationLinkDatum<GraphNode>[];
   @Input() entities: GraphNode[];
 
   // Grab a reference to the SVG DOM element
   // We'll use this below for determining force graph centering
   @ViewChild('svgEle') svgElement: ElementRef;
-
-  // See ngAfterViewChecked
-  private domInitialized = false;
 
   constructor(private d3Helper: D3HelperService) {
     // Once this component is created tell the browser that
@@ -31,10 +28,7 @@ export class GraphViewerDisplayComponent implements AfterViewChecked {
     // When a browser resize event occurs
     // inform the d3Helper that we are going to need a new force layout
     window.addEventListener('resize', () => {
-      d3Helper.updateSize({
-        height: this.svgElement.nativeElement.clientHeight,
-        width: this.svgElement.nativeElement.clientWidth
-      });
+      this.updateSize();
     });
   }
 
@@ -50,6 +44,14 @@ export class GraphViewerDisplayComponent implements AfterViewChecked {
     return entry.displayName;
   }
 
+  // Executed once to setup graph position, then again on window resize
+  updateSize() {
+    const nativeElement = this.svgElement.nativeElement;
+    this.d3Helper.updateSize({
+      height: nativeElement.clientHeight || nativeElement.parentNode.clientHeight,
+      width: nativeElement.clientWidth || nativeElement.parentNode.clientWidth
+    })
+  }
   // Runs each time the view is checked
   // Using it here because there is work todo after the first render
   // Careful here, this can be a performance hit
@@ -57,13 +59,7 @@ export class GraphViewerDisplayComponent implements AfterViewChecked {
   // The first time the view is checked we know that it is safe
   // To inquire about the initial height and width of the SVG graph
   // Do so and inform the d3Helper
-  ngAfterViewChecked() {
-    if (!this.domInitialized) {
-      this.d3Helper.updateSize({
-        height: this.svgElement.nativeElement.clientHeight,
-        width: this.svgElement.nativeElement.clientWidth
-      })
-    }
-    this.domInitialized = true;
+  ngOnInit() {
+    this.updateSize();
   }
 }

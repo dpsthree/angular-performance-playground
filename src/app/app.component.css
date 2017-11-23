@@ -2,3 +2,12 @@ app-people-list {
   height: calc(100vh - 8px);
   overflow: scroll;
 }
+
+mat-toolbar{
+  z-index: 10;
+  position: relative;
+}
+
+.middle-content {
+  flex: 1 1 auto;
+}

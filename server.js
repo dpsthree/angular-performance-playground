@@ -57,6 +57,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+app.use(cors());
 app.set("json spaces", 2);
 
 // Return a number of nodes as specified

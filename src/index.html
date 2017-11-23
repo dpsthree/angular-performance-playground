@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>PerformanceApp</title>
+  <title>Angular Performance Playground</title>
   <base href="/">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -29,11 +29,12 @@
 </script>
 <script>
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('service-worker.js').then(function(registration) {
-      console.log('Service Worker registered');
-    }).catch(function(err) {
+    navigator.serviceWorker.register('service-worker.js').then(function (registration) {
+    }).catch(function (err) {
       console.log('Service Worker registration failed: ', err);
     });
   }
 </script>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 </html>
