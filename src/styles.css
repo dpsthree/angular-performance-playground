@@ -12,6 +12,7 @@ body {
 canvas {
   position: fixed;
   right: 0px;
+  bottom: 0px;
 }
 
 body {
@@ -33,11 +34,16 @@ app-root {
   flex-direction: column;    
 }
 
-app-graph-page {
+app-graph-page, app-about, app-grid-page {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-flex: 1;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
+}
+
+app-grid-page, app-about {
+  justify-content: center;
+  flex-wrap: wrap;
 }

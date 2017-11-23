@@ -1,0 +1,11 @@
+mat-card {
+  margin: 5px;
+  width: 600px;
+}
+
+mat-card-actions.author {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}

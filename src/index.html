@@ -29,10 +29,12 @@
 </script>
 <script>
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('service-worker.js').then(function(registration) {
-    }).catch(function(err) {
+    navigator.serviceWorker.register('service-worker.js').then(function (registration) {
+    }).catch(function (err) {
       console.log('Service Worker registration failed: ', err);
     });
   }
 </script>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 </html>

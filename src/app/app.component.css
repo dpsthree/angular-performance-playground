@@ -7,3 +7,7 @@ mat-toolbar{
   z-index: 10;
   position: relative;
 }
+
+.middle-content {
+  flex: 1 1 auto;
+}

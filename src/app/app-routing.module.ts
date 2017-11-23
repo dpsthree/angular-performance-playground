@@ -4,6 +4,7 @@ import { Routes, RouterModule, ExtraOptions, PreloadAllModules } from '@angular/
 const routes: Routes = [
   { path: '', redirectTo: 'graph', pathMatch: 'full' },
   { path: 'graph', loadChildren: './graph/graph.module#GraphModule' },
+  { path: 'about', loadChildren: './about/about.module#AboutModule' },
   { path: 'grid', loadChildren: './grid/grid.module#GridModule' }
 ];
 
