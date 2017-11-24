@@ -9,6 +9,7 @@ import { D3HelperService } from './d3-helper.service';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
+console.log('App Started');
 
 @NgModule({
   declarations: [
