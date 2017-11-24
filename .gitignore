@@ -39,3 +39,5 @@ node_modules
 Thumbs.db
 
 out
+www
+dist

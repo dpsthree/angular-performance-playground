@@ -1,7 +1,8 @@
 {
   "name": "angular-performance-playground",
   "scripts": {
-    "prestart": "./build.sh && cd www && yarn",
+    "postinstall": "./build.sh",
+    "prestart": "cd www && yarn",
     "start": "node www/server.js",    
     "bootstrap": "lerna bootstrap",
     "postbuild": "npm run move-client && npm run move-server",
