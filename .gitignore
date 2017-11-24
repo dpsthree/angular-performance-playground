@@ -5,7 +5,7 @@
 /out-tsc
 
 # dependencies
-/node_modules
+node_modules
 
 # IDEs and editors
 /.idea
@@ -27,9 +27,7 @@
 /.sass-cache
 /connect.lock
 /coverage
-/libpeerconnection.log
-npm-debug.log
-testem.log
+*.log
 /typings
 
 # e2e
@@ -39,3 +37,5 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+out
