@@ -5,7 +5,7 @@
     "start": "node server.js",    
     "bootstrap": "lerna bootstrap",
     "postbuild": "npm run move-client && npm run move-server",
-    "move-client": "copyfiles -u 3 packages/client/dist/**/* www",
+    "move-client": "copyfiles -u 3 \"packages/client/dist/**/*\" www",
     "move-server": "copyfiles -u 2 packages/server/server.js .",
     "clean": "cd packages/client && rimraf dist && rimraf node_modules && cd ../../ && rimraf www"
   },
