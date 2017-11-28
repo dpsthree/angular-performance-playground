@@ -61,12 +61,8 @@ app.use(cors());
 app.set("json spaces", 2);
 
 // Run the app by serving the static files
-// in the dist directory
-app.use(express.static(__dirname + '/dist'));
-
-// Run the app by serving the static files
-// in the dist directory
-app.use(express.static(__dirname + '/dist'));
+// in the www directory
+app.use(express.static(__dirname + '/www'));
 
 // Return a number of nodes as specified
 app.get('/v1/details/:count', cors(), (req, res) => {
@@ -90,12 +86,12 @@ app.get('/', function (req, res) {
 // For all remaining GET requests, send back index.html
 // so that PathLocationStrategy can be used
 app.get('/app*', function (req, res) {  
-  res.sendFile(path.join(__dirname + '/dist/index.html'));
+  res.sendFile(path.join(__dirname + '/www/index.html'));
 });
 
 // Run the app by serving the static files
-// in the dist directory
-app.use(express.static(__dirname + '/dist'));
+// in the www directory
+app.use(express.static(__dirname + '/www'));
 
 // Start the app by listening on the default
 // Heroku port
