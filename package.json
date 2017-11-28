@@ -2,21 +2,26 @@
   "name": "angular-performance-playground",
   "scripts": {
     "postinstall": "chmod +x ./build.sh && ./build.sh",
-    "start": "node server.js",    
+    "start": "node server.js",
     "bootstrap": "lerna bootstrap",
     "postbuild": "npm run move-client && npm run move-server",
     "move-client": "copyfiles -u 3 \"packages/client/dist/**/*\" www",
     "move-server": "copyfiles -u 2 packages/server/server.js .",
-    "clean": "cd packages/client && rimraf dist && rimraf node_modules && cd ../../ && rimraf www"
+    "clean": "cd packages/client && rimraf dist && rimraf node_modules && cd ../../ && rimraf www",
+    "start-dev": "run-p start-client-dev start-server-dev start-web-worker",
+    "start-client-dev": "cd packages/client && npm run start-dev",
+    "start-server-dev": "cd packages/server && npm run start-dev",
+    "start-web-worker": "cd packages/d3-web-worker && npm start"
   },
   "version": "2.5.0",
   "dependencies": {
-    "lerna": "2.0.0-beta.38",
-    "copyfiles": "1.2.0",
-    "rimraf": "2.6.2",
     "body-parser": "1.18.2",
+    "copyfiles": "1.2.0",
     "cors": "2.8.4",
     "express": "4.16.2",
-    "faker": "4.1.0"
+    "faker": "4.1.0",
+    "lerna": "2.0.0-beta.38",
+    "npm-run-all": "^4.1.2",
+    "rimraf": "2.6.2"
   }
 }

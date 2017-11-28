@@ -1,5 +1,8 @@
 {
   "name": "app-server",
+  "scripts": {
+    "start-dev": "node server.js"
+  },
   "dependencies": {
     "body-parser": "1.18.2",
     "cors": "2.8.4",
