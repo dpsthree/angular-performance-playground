@@ -52,7 +52,7 @@ export class D3HelperService {
   private serverData: Observable<{ entities: GraphNode[], relationships: SimulationLinkDatum<GraphNode>[] }>;
 
   // Throttle Updates so as not to overwhelm change detection cycles
-  linksAndNodes = this.graphData.throttleTime(15);
+  linksAndNodes = this.graphData;
 
   // The holds the data that has passed through the family calculations
   entitiesAndDetails: Observable<{ entity: GraphNode, relCount: number }[]>;
@@ -70,15 +70,14 @@ export class D3HelperService {
       .switchMap(count => http.get('/v1/details/' + count)
         .map(res => res.json())).publishReplay().refCount();
 
-    // We need to ease back pressure on the digest cycle
-    // Tweak this number to see how fast the digest cycle can process on your machine
-    this.linksAndNodes = this.graphData.throttleTime(15);
-
     // After sending data downstream inform Angular that an event happened outside of zones
     this.worker.onmessage = (event => {
-      this.graphData.next({ entities: event.data.entities, relationships: event.data.relationships });
-      this.ar.tick();
-    })
+      requestAnimationFrame(() => {
+        this.worker.postMessage({type: 'tick'});
+        this.graphData.next({ entities: event.data.entities, relationships: event.data.relationships });
+        this.ar.tick();
+      });
+    });
 
     // Watch for both the http result to arrive and the current graph size to submit a new
     // data set for force calculations
@@ -97,19 +96,19 @@ export class D3HelperService {
     // the family calculation
     this.entitiesAndDetails = Observable.combineLatest(
       this.serverData
-      .map(relsAndEnts => {
-        const entDetails: { entity: GraphNode, relCount: number }[] = [];
-        relsAndEnts.entities.forEach(entity => {
-          // Find out how many first level connections this entity has
-          const rels = relsAndEnts.relationships
-            .filter(rel => rel.source === entity.displayName || rel.target === entity.displayName);
-          entDetails.push({ entity, relCount: rels.length });
-        })
-        return entDetails;
-      }),
+        .map(relsAndEnts => {
+          const entDetails: { entity: GraphNode, relCount: number }[] = [];
+          relsAndEnts.entities.forEach(entity => {
+            // Find out how many first level connections this entity has
+            const rels = relsAndEnts.relationships
+              .filter(rel => rel.source === entity.displayName || rel.target === entity.displayName);
+            entDetails.push({ entity, relCount: rels.length });
+          });
+          return entDetails;
+        }),
       this.searchValue,
       (entDetails, search) => entDetails.filter(ent => ent.entity.displayName.indexOf(search) > -1))
-    .do(data => console.log('testing do', data))
+      .do(data => console.log('testing do', data));
   }
 
   // Submit a new search value down the pipeline
@@ -130,6 +129,7 @@ export class D3HelperService {
 
   // Fires up a new web worker thread to obtain force calculations
   updateForce(entities: GraphNode[], relationships: SimulationLinkDatum<GraphNode>[], height: number, width: number, search: string) {
-    this.worker.postMessage({ entities, relationships, height, width, search, type: 'restart' })
+    this.worker.postMessage({ entities, relationships, height, width, search, type: 'restart' });
+    this.worker.postMessage({type: 'tick'});
   }
 }

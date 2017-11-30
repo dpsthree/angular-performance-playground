@@ -49,10 +49,14 @@ onmessage = function (event) {
             }
             // Return the results to the client
             postMessage({ relationships: filteredRelationships, entities: filteredEntities });
+            if (simulation) {
+                simulation.stop();
+            }
         })
             .force('link', d3.forceLink(relationships)
             .id(function (node) { return node.displayName; })
             .distance(0).strength(.5));
+        simulation.tick();
     }
     // When searching we want to continue forcing as usual, but we want to narrow the set
     // that is returned to the client
@@ -62,6 +66,9 @@ onmessage = function (event) {
             .filter(function (rel) {
             return _.find(filteredEntities, function (ent) { return ent === rel.source; }) && _.find(filteredEntities, function (ent) { return ent === rel.target; });
         });
+    }
+    if (type && type === 'tick') {
+        simulation.restart();
     }
 };
 //# sourceMappingURL=worker.js.map

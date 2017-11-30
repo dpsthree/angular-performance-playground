@@ -47,7 +47,7 @@ onmessage = function (event) {
       // force graph, good for ambient motion during presentation
       .alphaMin(.0001)
       .alphaDecay(0.0005)
-      .on('tick', function () {
+      .on('tick', () => {
         // Now that d3 has moved the node objects into the links perform a filter
         // but only once
         if (!filteredEntities) {
@@ -61,11 +61,16 @@ onmessage = function (event) {
 
         // Return the results to the client
         postMessage({ relationships: filteredRelationships, entities: filteredEntities });
+        if(simulation){
+          simulation.stop();
+        }
       })
       .force('link', d3.forceLink(relationships)
         // Associate links with nodes by way of display name  
         .id(function (node: any) { return node.displayName })
         .distance(0).strength(.5));
+
+      simulation.tick();
   }
 
   // When searching we want to continue forcing as usual, but we want to narrow the set
@@ -77,5 +82,9 @@ onmessage = function (event) {
         return _.find(filteredEntities,
           function (ent) { return ent === rel.source }) && _.find(filteredEntities, function (ent) { return ent === rel.target })
       });
+  }
+
+  if (type && type === 'tick') {
+    simulation.restart();
   }
 };
