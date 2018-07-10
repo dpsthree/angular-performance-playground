@@ -15,6 +15,7 @@ import 'rxjs/add/operator/publishReplay';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 
+const entityEndPoint = 'https://us-central1-angular-performance-playground.cloudfunctions.net/helloWorld';
 /**
  * Used to abstract the complexities and concerns of D3
  *
@@ -67,13 +68,13 @@ export class D3HelperService {
 
     // Grab the data from the server
     this.serverData = this.countValue
-      .switchMap(count => http.get('/v1/details/' + count)
-        .map(res => res.json())).publishReplay().refCount();
+      .switchMap(count => http.post(entityEndPoint, { data: { count } })
+        .map(res => res.json())).map(data => data.result).publishReplay().refCount();
 
     // After sending data downstream inform Angular that an event happened outside of zones
     this.worker.onmessage = (event => {
       requestAnimationFrame(() => {
-        this.worker.postMessage({type: 'tick'});
+        this.worker.postMessage({ type: 'tick' });
         this.graphData.next({ entities: event.data.entities, relationships: event.data.relationships });
         this.ar.tick();
       });
@@ -130,6 +131,6 @@ export class D3HelperService {
   // Fires up a new web worker thread to obtain force calculations
   updateForce(entities: GraphNode[], relationships: SimulationLinkDatum<GraphNode>[], height: number, width: number, search: string) {
     this.worker.postMessage({ entities, relationships, height, width, search, type: 'restart' });
-    this.worker.postMessage({type: 'tick'});
+    this.worker.postMessage({ type: 'tick' });
   }
 }

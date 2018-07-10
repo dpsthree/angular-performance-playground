@@ -58,7 +58,6 @@ Heroku instance of choice.
 
 * [Angular](https://angular.io/) - SPA framework
 * [Angular Material](https://material.angular.io/components/input/overview) - Component Style Library
-* [Express](https://expressjs.com/) - Server stack
 
 ## Authors
 

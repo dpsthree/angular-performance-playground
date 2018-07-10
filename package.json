@@ -2,16 +2,17 @@
   "name": "angular-performance-playground",
   "scripts": {
     "postinstall": "chmod +x ./build.sh && ./build.sh",
-    "start": "node server.js",
     "bootstrap": "lerna bootstrap",
-    "postbuild": "npm run move-client && npm run move-server",
+    "postbuild": "npm run move-client",
     "move-client": "copyfiles -u 3 \"packages/client/dist/**/*\" www",
-    "move-server": "copyfiles -u 2 packages/server/server.js .",
     "clean": "cd packages/client && rimraf dist && rimraf node_modules && cd ../../ && rimraf www",
-    "start-dev": "run-p start-client-dev start-server-dev start-web-worker",
+    "start-dev": "run-p start-client-dev start-web-worker",
     "start-client-dev": "cd packages/client && npm run start-dev",
-    "start-server-dev": "cd packages/server && npm run start-dev",
-    "start-web-worker": "cd packages/d3-web-worker && npm start"
+    "start-web-worker": "cd packages/d3-web-worker && npm start",
+    "get-indexes": "firebase firestore:indexes >firestore.indexes.json",
+    "deploy": "firebase deploy",
+    "deploy-indexes": "firebase deploy --only firestore:indexes",
+    "deploy-rules": "firebase deploy --only firestore:rules"
   },
   "version": "2.5.0",
   "dependencies": {

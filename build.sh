@@ -6,6 +6,4 @@ npm run bootstrap
 pushd ./packages/client
 npm run build
 popd
-pushd ./packages/server
-popd
 npm run postbuild

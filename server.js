@@ -86,7 +86,6 @@ app.get('/', function (req, res) {
 // For all remaining GET requests, send back index.html
 // so that PathLocationStrategy can be used
 app.get('/app*', function (req, res) {  
-  console.log('fielding')
   res.sendFile(path.join(__dirname + '/www/index.html'));
 });
 
