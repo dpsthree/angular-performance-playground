@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "sw": "sw-precache --root=dist --config=sw-precache-config.js",
-    "start-dev": "ng serve --aot --proxy-config proxy.conf.json",
+    "start-dev": "ng serve",
     "build": "ng build --prod && npm run sw",
     "test": "ng test",
     "lint": "ng lint",
