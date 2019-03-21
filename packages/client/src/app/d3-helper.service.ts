@@ -1,5 +1,5 @@
 import { Injectable, ApplicationRef } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { SimulationNodeDatum, SimulationLinkDatum } from 'd3-force';
 import { Subject, BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import * as _ from 'lodash';
@@ -9,7 +9,7 @@ import {
   withLatestFrom,
   publishReplay,
   tap,
-  map
+  map,
 } from 'rxjs/operators';
 const entityEndPoint =
   'https://us-central1-angular-performance-playground.cloudfunctions.net/graphEntities';
@@ -70,14 +70,10 @@ export class D3HelperService {
   // Number of nodes and links to fetch as a number
   countValue = new BehaviorSubject(INITIAL_NODE_COUNT);
 
-  constructor(private ar: ApplicationRef, http: Http) {
+  constructor(private ar: ApplicationRef, http: HttpClient) {
     // Grab the data from the server
     this.serverData = this.countValue.pipe(
-      switchMap(count =>
-        http
-          .post(entityEndPoint, { data: { count } })
-          .pipe(map(res => res.json()))
-      ),
+      switchMap(count => http.post<any>(entityEndPoint, { data: { count } })),
       map(data => data.result),
       publishReplay(),
       refCount()
@@ -89,7 +85,7 @@ export class D3HelperService {
         this.worker.postMessage({ type: 'tick' });
         this.graphData.next({
           entities: event.data.entities,
-          relationships: event.data.relationships
+          relationships: event.data.relationships,
         });
         this.ar.tick();
       });
@@ -164,7 +160,7 @@ export class D3HelperService {
       height,
       width,
       search,
-      type: 'restart'
+      type: 'restart',
     });
     this.worker.postMessage({ type: 'tick' });
   }

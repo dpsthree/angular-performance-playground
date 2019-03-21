@@ -1,20 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
-import { MatCardModule, MatIconModule, MatButtonModule } from '@angular/material';
 
 import { AboutComponent } from './about.component';
+import { MaterialDepsModule } from 'app/material-deps/material-deps.module';
 
-const aboutRoutes: Routes = [
-  { path: '', component: AboutComponent }
-]
+const aboutRoutes: Routes = [{ path: '', component: AboutComponent }];
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule.forChild(aboutRoutes),
-    MatCardModule, MatIconModule, MatButtonModule
+    MaterialDepsModule,
   ],
-  declarations: [AboutComponent]
+  declarations: [AboutComponent],
 })
-export class AboutModule { }
+export class AboutModule {}

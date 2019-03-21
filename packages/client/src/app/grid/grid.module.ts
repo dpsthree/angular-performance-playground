@@ -1,19 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
-import {
-  MatInputModule,
-  MatTableModule,
-  MatListModule,
-  MatSortModule,
-  MatSliderModule,
-  MatFormFieldModule
-} from '@angular/material';
-import { CdkTableModule } from '@angular/cdk/table';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { GridPageComponent } from './grid-page/grid-page.component';
 import { GridPageDisplayComponent } from './grid-page/grid-page.display.component';
+import { MaterialDepsModule } from 'app/material-deps/material-deps.module';
 
 const gridRoutes: Routes = [{ path: '', component: GridPageComponent }];
 
@@ -21,15 +13,9 @@ const gridRoutes: Routes = [{ path: '', component: GridPageComponent }];
   imports: [
     CommonModule,
     RouterModule.forChild(gridRoutes),
-    MatInputModule,
-    MatFormFieldModule,
-    MatTableModule,
-    CdkTableModule,
     ReactiveFormsModule,
-    MatListModule,
-    MatSliderModule,
-    MatSortModule
+    MaterialDepsModule,
   ],
-  declarations: [GridPageComponent, GridPageDisplayComponent]
+  declarations: [GridPageComponent, GridPageDisplayComponent],
 })
 export class GridModule {}

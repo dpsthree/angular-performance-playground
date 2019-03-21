@@ -1,30 +1,25 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { HttpModule, Http } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { MatToolbarModule, MatButtonModule } from '@angular/material';
 
 import { D3HelperService } from './d3-helper.service';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { MaterialDepsModule } from './material-deps/material-deps.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 console.log('App Started');
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    FlexLayoutModule,
-    HttpModule,
+    HttpClientModule,
     AppRoutingModule,
-    MatToolbarModule,
-    MatButtonModule
+    MaterialDepsModule,
   ],
   providers: [D3HelperService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
