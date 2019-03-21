@@ -2,20 +2,19 @@
   "compileOnSave": false,
   "compilerOptions": {
     "outFile": "../client/src/worker.js",
+    "module": "amd",
     "baseUrl": "src",
     "sourceMap": true,
     "declaration": false,
     "skipLibCheck": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es5",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2016",
-      "webworker"
-    ]
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2016", "webworker"]
   }
 }

@@ -1,7 +1,6 @@
 {
   "name": "angular-performance-playground",
   "scripts": {
-    "postinstall": "chmod +x ./build.sh && ./build.sh",
     "postbuild": "npm run move-client",
     "move-client": "copyfiles -u 3 \"packages/client/dist/**/*\" www",
     "clean": "cd packages/client && rimraf dist && rimraf node_modules && cd ../../ && rimraf www",
@@ -23,5 +22,9 @@
     "lerna": "3.13.1",
     "npm-run-all": "^4.1.2",
     "rimraf": "2.6.3"
+  },
+  "devDependencies": {
+    "prettier": "^1.16.4",
+    "typescript": "^3.3.4000"
   }
 }

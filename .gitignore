@@ -38,6 +38,9 @@ node_modules
 .DS_Store
 Thumbs.db
 
+# firebase output
+.firebase/
+
 out
 www
 dist

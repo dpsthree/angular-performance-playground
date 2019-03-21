@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "start": "tsc --watch",
-    "build": ""
+    "build": "tsc"
   },
   "private": true,
   "dependencies": {
@@ -14,6 +14,6 @@
     "tslint": "5.8.0",
     "typescript": "2.6.1",
     "@types/d3": "4.12.0",
-    "@types/lodash": "4.14.85"    
+    "@types/lodash": "4.14.85"
   }
 }
