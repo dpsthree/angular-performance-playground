@@ -3,7 +3,6 @@
   "scripts": {
     "postbuild": "npm run move-client",
     "move-client": "copyfiles -u 3 \"packages/client/dist/**/*\" www",
-    "clean": "cd packages/client && rimraf dist && rimraf node_modules && cd ../../ && rimraf www",
     "start-dev": "run-p start-client-dev start-web-worker",
     "start-client-dev": "cd packages/client && npm run start-dev",
     "start-web-worker": "cd packages/d3-web-worker && npm start",

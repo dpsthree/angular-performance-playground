@@ -1,9 +1,11 @@
 #!/bin/bash
 
-yarn global add rimraf copyfiles
-yarn clean
+npm i -g add copyfiles
+rm -rf packages/client/node_modules
+rm -rf packages/client/dist
+rm -rf www
 pushd ./packages/client
-yarn
-yarn build
+npm i
+npm run build
 popd
-yarn postbuild
+npm run postbuild
