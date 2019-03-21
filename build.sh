@@ -1,9 +1,9 @@
 #!/bin/bash
 
-npm i -g @angular/cli rimraf copyfiles lerna
-npm run clean
-npm run bootstrap
+yarn global add rimraf copyfiles
+yarn clean
 pushd ./packages/client
-npm run build
+yarn
+yarn build
 popd
-npm run postbuild
+yarn postbuild

@@ -2,7 +2,6 @@
   "name": "angular-performance-playground",
   "scripts": {
     "postinstall": "chmod +x ./build.sh && ./build.sh",
-    "bootstrap": "lerna bootstrap",
     "postbuild": "npm run move-client",
     "move-client": "copyfiles -u 3 \"packages/client/dist/**/*\" www",
     "clean": "cd packages/client && rimraf dist && rimraf node_modules && cd ../../ && rimraf www",
