@@ -10,7 +10,8 @@ import { D3HelperService } from '../../d3-helper.service';
 export class GridPageComponent {
   entities = this.d3Helper.entitiesAndDetails;
   count = this.d3Helper.countValue;
-  constructor(private d3Helper: D3HelperService) { }
+
+  constructor(private d3Helper: D3HelperService) {}
 
   countChanged(value: number) {
     this.d3Helper.updateCount(value);

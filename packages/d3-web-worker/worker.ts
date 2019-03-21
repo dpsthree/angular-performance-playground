@@ -3,16 +3,16 @@
 // Perhaps a shared worker would have been better?
 
 // Grab pre-bundled d3 ready to use
-importScripts("d3-collection.min.js");
-importScripts("d3-dispatch.min.js");
-importScripts("d3-quadtree.min.js");
-importScripts("d3-timer.min.js");
-importScripts("d3-force.min.js");
-importScripts("lodash.min.js");
+importScripts('d3-collection.min.js');
+importScripts('d3-dispatch.min.js');
+importScripts('d3-quadtree.min.js');
+importScripts('d3-timer.min.js');
+importScripts('d3-force.min.js');
+importScripts('lodash.min.js');
 
 // This data should persist between messages
-var simulation, entities, relationships
-var filteredEntities, filteredRelationships
+let simulation, entities, relationships;
+let filteredEntities, filteredRelationships;
 
 onmessage = function (event) {
 
@@ -51,23 +51,23 @@ onmessage = function (event) {
         // Now that d3 has moved the node objects into the links perform a filter
         // but only once
         if (!filteredEntities) {
-          filteredEntities = entities.filter(function (ent) { return ent.displayName.indexOf(search) > -1 })
+          filteredEntities = entities.filter(function (ent) { return ent.displayName.indexOf(search) > -1; });
           filteredRelationships = relationships
             .filter(function (rel) {
               return _.find(filteredEntities,
-                function (ent) { return ent === rel.source }) && _.find(filteredEntities, function (ent) { return ent === rel.target })
+                function (ent) { return ent === rel.source; }) && _.find(filteredEntities, function (ent) { return ent === rel.target; });
             });
         }
 
         // Return the results to the client
         postMessage({ relationships: filteredRelationships, entities: filteredEntities });
-        if(simulation){
+        if (simulation) {
           simulation.stop();
         }
       })
       .force('link', d3.forceLink(relationships)
-        // Associate links with nodes by way of display name  
-        .id(function (node: any) { return node.displayName })
+        // Associate links with nodes by way of display name
+        .id(function (node: any) { return node.displayName; })
         .distance(0).strength(.5));
 
       simulation.tick();
@@ -76,11 +76,11 @@ onmessage = function (event) {
   // When searching we want to continue forcing as usual, but we want to narrow the set
   // that is returned to the client
   if (type && type === 'filter') {
-    filteredEntities = entities.filter(function (ent) { return ent.displayName.indexOf(search) > -1 })
+    filteredEntities = entities.filter(function (ent) { return ent.displayName.indexOf(search) > -1; });
     filteredRelationships = relationships
       .filter(function (rel) {
         return _.find(filteredEntities,
-          function (ent) { return ent === rel.source }) && _.find(filteredEntities, function (ent) { return ent === rel.target })
+          function (ent) { return ent === rel.source; }) && _.find(filteredEntities, function (ent) { return ent === rel.target; });
       });
   }
 

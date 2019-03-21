@@ -1,6 +1,10 @@
 import {
-  Component, Input, ViewChild,
-  ElementRef, OnInit, ChangeDetectionStrategy
+  Component,
+  Input,
+  ViewChild,
+  ElementRef,
+  OnInit,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { SimulationLinkDatum } from 'd3-force';
 
@@ -33,14 +37,14 @@ export class GraphViewerDisplayComponent implements OnInit {
   }
 
   // Help Angular detect changes by providing a unique identifier for links
-  trackLineBy(index: number, line: SimulationLinkDatum<GraphNode>) {
+  trackLineBy(_index: number, line: SimulationLinkDatum<GraphNode>) {
     const source: GraphNode = line.source as GraphNode;
     const target: GraphNode = line.target as GraphNode;
     return source.displayName + target.displayName;
   }
 
   // Help Angular detect changes by providing a unique identifier for nodes
-  trackEntsBy(index: number, entry: GraphNode) {
+  trackEntsBy(_index: number, entry: GraphNode) {
     return entry.displayName;
   }
 
@@ -48,9 +52,10 @@ export class GraphViewerDisplayComponent implements OnInit {
   updateSize() {
     const nativeElement = this.svgElement.nativeElement;
     this.d3Helper.updateSize({
-      height: nativeElement.clientHeight || nativeElement.parentNode.clientHeight,
+      height:
+        nativeElement.clientHeight || nativeElement.parentNode.clientHeight,
       width: nativeElement.clientWidth || nativeElement.parentNode.clientWidth
-    })
+    });
   }
   // Runs each time the view is checked
   // Using it here because there is work todo after the first render

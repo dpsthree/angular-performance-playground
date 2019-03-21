@@ -11,16 +11,17 @@
   },
   "main": "lib/index.js",
   "dependencies": {
+    "cors": "^2.8.5",
     "faker": "^4.1.0",
-    "firebase-admin": "~5.12.1",
-    "firebase-functions": "^1.0.3",
+    "firebase-admin": "~7.1.1",
+    "firebase-functions": "^2.2.1",
     "lodash": "^4.17.10"
   },
   "devDependencies": {
     "@types/faker": "^4.1.2",
     "@types/lodash": "^4.14.111",
     "tslint": "^5.8.0",
-    "typescript": "^2.5.3"
+    "typescript": "^3.3.4000"
   },
   "private": true
 }

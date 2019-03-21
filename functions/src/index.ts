@@ -1,6 +1,7 @@
 import { https } from 'firebase-functions';
 import * as faker from 'faker';
 import * as _ from 'lodash';
+import * as cors from 'cors';
 
 const colorList = [
   '#1565c0',
@@ -9,9 +10,11 @@ const colorList = [
   '#e91e63',
   '#ff6090',
   '#b0003a'
-]
+];
 
-export const helloWorld = https.onCall( async (data, context) => {
+cors({ origin: true });
+
+export const graphEntities = https.onCall(async (data, context) => {
   if (data && data.count) {
     const count = data.count;
     if (count >= 0 && count <= 5000) {
@@ -27,10 +30,13 @@ export const helloWorld = https.onCall( async (data, context) => {
 // use faker to create count random people
 // associate them with a color and add to list
 function generatedData(count: number) {
-
-  const entities = []
+  const entities = [];
   for (let i = 0; i < count; i++) {
-    entities.push({ displayName: faker.name.findName(), index: i, color: colorList[Math.floor(Math.random() * 6)] });
+    entities.push({
+      displayName: faker.name.findName(),
+      index: i,
+      color: colorList[Math.floor(Math.random() * 6)]
+    });
   }
 
   // For each entity, make sure that they have a relationship.
@@ -50,13 +56,18 @@ function generatedData(count: number) {
       target = entities[Math.floor(Math.random() * count)];
       found = !!_.find(relationships, link => {
         return (
-          link.source === source.displayName && link.target === target.displayName ||
-          link.source === target.displayName && link.target === source.displayName ||
+          (link.source === source.displayName &&
+            link.target === target.displayName) ||
+          (link.source === target.displayName &&
+            link.target === source.displayName) ||
           source === target
         );
-      })
-    } while (found)
-    relationships.push({ source: source.displayName, target: target.displayName });
+      });
+    } while (found);
+    relationships.push({
+      source: source.displayName,
+      target: target.displayName
+    });
   }
   return { entities, relationships };
 }

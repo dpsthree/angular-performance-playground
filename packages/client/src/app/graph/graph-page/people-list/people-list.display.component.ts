@@ -1,10 +1,9 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { SimulationLinkDatum } from 'd3-force';
 import { FormControl } from '@angular/forms';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { MatSliderChange } from '@angular/material';
 
-import { D3HelperService, GraphNode } from '../../../d3-helper.service';
+import { GraphNode } from '../../../d3-helper.service';
 
 @Component({
   selector: 'app-people-list-display',
@@ -21,7 +20,7 @@ export class PeopleListDisplayComponent implements OnDestroy {
   // this will keep the form in sync
   @Input() set search(value: string) {
     this.searchControl.setValue(value, { emitEvent: false });
-  };
+  }
 
   @Input() count: number;
 
@@ -36,7 +35,7 @@ export class PeopleListDisplayComponent implements OnDestroy {
 
   // used in template to help angular identify unique entities, reduces
   // the amount of DOM updating needed
-  trackEntsBy(index, entry: { entity: GraphNode, relCount: number }) {
+  trackEntsBy(_index, entry: { entity: GraphNode, relCount: number }) {
     return entry.entity && entry.entity.displayName;
   }
 

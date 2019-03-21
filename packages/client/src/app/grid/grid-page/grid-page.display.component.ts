@@ -1,17 +1,17 @@
-import { Component, ChangeDetectionStrategy, Input, Output, ViewChild, EventEmitter, OnInit } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  Input,
+  Output,
+  ViewChild,
+  EventEmitter,
+  OnInit
+} from '@angular/core';
 import { DataSource } from '@angular/cdk/table';
 import { MatSort, MatSliderChange } from '@angular/material';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+import { Observable, BehaviorSubject, merge } from 'rxjs';
 import { FormControl } from '@angular/forms';
-import { SimulationLinkDatum } from 'd3';
-import 'rxjs/add/operator/startWith';
-import 'rxjs/add/observable/merge';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/observable/fromEvent';
-
+import { map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { GraphNode } from '../../d3-helper.service';
 @Component({
   selector: 'app-grid-page-display',
@@ -19,40 +19,48 @@ import { GraphNode } from '../../d3-helper.service';
   styleUrls: ['./grid-page.display.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-
 export class GridPageDisplayComponent implements OnInit {
-  @Input() set entities(value: { entity: GraphNode, relCount: number }[]) {
+  @Input() set entities(value: { entity: GraphNode; relCount: number }[]) {
     if (value) {
-      const values = value.map(entry => ({ ...entry.entity, relCount: entry.relCount }));
+      const values = value.map(entry => ({
+        ...entry.entity,
+        relCount: entry.relCount
+      }));
       this.simpleDataSource = values;
       this.exampleDatabase.updateEntities(values);
     }
-  };
+  }
   simpleDataSource: UserData[];
   @ViewChild(MatSort) sort: MatSort;
   @Input() count: number;
   @Output() countChanged = new EventEmitter<number>();
   displayedColumns = ['displayName', 'relCount', 'color'];
+  // tslint:disable-next-line: no-use-before-declare
   exampleDatabase = new ExampleDatabase();
   dataSource: ExampleDataSource | null;
   filter: FormControl = new FormControl();
 
   constructor() {
     this.filter.valueChanges
-      .debounceTime(150)
-      .distinctUntilChanged()
-      .subscribe((value) => {
-        if (!this.dataSource) { return; }
+      .pipe(
+        debounceTime(150),
+        distinctUntilChanged()
+      )
+      .subscribe(value => {
+        if (!this.dataSource) {
+          return;
+        }
         this.dataSource.filter = value;
       });
   }
 
   ngOnInit() {
     // TODO: move tranformation to a service
+    // tslint:disable-next-line: no-use-before-declare
     this.dataSource = new ExampleDataSource(this.exampleDatabase, this.sort);
   }
 
-  trackNodesBy(index: number, node: UserData) {
+  trackNodesBy(_index: number, node: UserData) {
     return node.displayName;
   }
 
@@ -72,10 +80,11 @@ export interface UserData {
 export class ExampleDatabase {
   /** Stream that emits whenever the data has been modified. */
   dataChange = new BehaviorSubject<UserData[]>([]);
-  get data(): UserData[] { return this.dataChange.value; }
-
-  constructor() {
+  get data(): UserData[] {
+    return this.dataChange.value;
   }
+
+  constructor() {}
 
   /** Adds a new user to the database. */
   updateEntities(entities: GraphNode[]) {
@@ -85,10 +94,17 @@ export class ExampleDatabase {
 
 export class ExampleDataSource extends DataSource<any> {
   _filterChange = new BehaviorSubject('');
-  get filter(): string { return this._filterChange.value; }
-  set filter(filter: string) { this._filterChange.next(filter); }
+  get filter(): string {
+    return this._filterChange.value;
+  }
+  set filter(filter: string) {
+    this._filterChange.next(filter);
+  }
 
-  constructor(private _exampleDatabase: ExampleDatabase, private _sort: MatSort) {
+  constructor(
+    private _exampleDatabase: ExampleDatabase,
+    private _sort: MatSort
+  ) {
     super();
   }
 
@@ -100,39 +116,52 @@ export class ExampleDataSource extends DataSource<any> {
       this._sort.sortChange
     ];
 
-    return Observable.merge(...displayDataChanges)
-      .map(() => {
+    return merge(...displayDataChanges).pipe(
+      map(() => {
         return this._exampleDatabase.data.slice().filter((item: UserData) => {
           const searchStr = item.displayName.toLowerCase();
           return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
         });
-      })
-      .map(filtered => {
+      }),
+      map(filtered => {
         return this.getSortedData(filtered);
-      });
+      })
+    );
   }
 
-  disconnect() { }
+  disconnect() {}
 
   getSortedData(filtered: UserData[]): UserData[] {
     const data = filtered.slice();
-    if (!this._sort.active || this._sort.direction === '') { return data; }
+    if (!this._sort.active || this._sort.direction === '') {
+      return data;
+    }
 
     return data.sort((a, b) => {
       let propertyA: number | string = '';
       let propertyB: number | string = '';
 
       switch (this._sort.active) {
-        case 'displayName': [propertyA, propertyB] = [a.displayName, b.displayName]; break;
-        case 'x': [propertyA, propertyB] = [a.x, b.x]; break;
-        case 'y': [propertyA, propertyB] = [a.y, b.y]; break;
-        case 'color': [propertyA, propertyB] = [a.color, b.color]; break;
+        case 'displayName':
+          [propertyA, propertyB] = [a.displayName, b.displayName];
+          break;
+        case 'x':
+          [propertyA, propertyB] = [a.x, b.x];
+          break;
+        case 'y':
+          [propertyA, propertyB] = [a.y, b.y];
+          break;
+        case 'color':
+          [propertyA, propertyB] = [a.color, b.color];
+          break;
       }
 
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
       const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
 
-      return (valueA < valueB ? -1 : 1) * (this._sort.direction === 'asc' ? 1 : -1);
+      return (
+        (valueA < valueB ? -1 : 1) * (this._sort.direction === 'asc' ? 1 : -1)
+      );
     });
   }
 }

@@ -1,6 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatCardModule, MatListModule, MatSidenavModule, MatInputModule, MatSliderModule } from '@angular/material';
+import {
+  MatCardModule,
+  MatListModule,
+  MatSidenavModule,
+  MatInputModule,
+  MatSliderModule,
+  MatFormFieldModule
+} from '@angular/material';
 import { Routes, RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -11,9 +18,7 @@ import { GraphViewerDisplayComponent } from './graph-page/graph-viewer/graph-vie
 import { PeopleListComponent } from './graph-page/people-list/people-list.component';
 import { PeopleListDisplayComponent } from './graph-page/people-list/people-list.display.component';
 
-const graphRoutes: Routes = [
-  { path: '', component: GraphPageComponent}
-]
+const graphRoutes: Routes = [{ path: '', component: GraphPageComponent }];
 
 @NgModule({
   imports: [
@@ -22,6 +27,7 @@ const graphRoutes: Routes = [
     MatListModule,
     MatSidenavModule,
     MatInputModule,
+    MatFormFieldModule,
     MatSliderModule,
     RouterModule.forChild(graphRoutes),
     ReactiveFormsModule,
@@ -35,4 +41,4 @@ const graphRoutes: Routes = [
     PeopleListDisplayComponent
   ]
 })
-export class GraphModule { }
+export class GraphModule {}

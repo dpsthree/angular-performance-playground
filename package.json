@@ -16,13 +16,13 @@
   },
   "version": "2.5.0",
   "dependencies": {
-    "body-parser": "1.18.2",
-    "copyfiles": "1.2.0",
-    "cors": "2.8.4",
-    "express": "4.16.2",
+    "body-parser": "1.18.3",
+    "copyfiles": "2.1.0",
+    "cors": "2.8.5",
+    "express": "4.16.4",
     "faker": "4.1.0",
-    "lerna": "2.0.0-beta.38",
+    "lerna": "3.13.1",
     "npm-run-all": "^4.1.2",
-    "rimraf": "2.6.2"
+    "rimraf": "2.6.3"
   }
 }
