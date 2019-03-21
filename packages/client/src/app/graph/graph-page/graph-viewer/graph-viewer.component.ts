@@ -8,6 +8,7 @@ import { D3HelperService, GraphNode } from '../../../d3-helper.service';
 @Component({
   selector: 'app-graph-viewer',
   templateUrl: './graph-viewer.component.html',
+  styleUrls: ['./graph-viewer.component.css'],
   // No change detection here (no inputs)
   changeDetection: ChangeDetectionStrategy.OnPush
 })

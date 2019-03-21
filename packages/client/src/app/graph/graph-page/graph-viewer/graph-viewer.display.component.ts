@@ -12,7 +12,7 @@ import { D3HelperService, GraphNode } from '../../../d3-helper.service';
 
 @Component({
   selector: 'app-graph-viewer-display',
-  templateUrl: './graph-viewer.display.component.html',
+  templateUrl: './graph-viewer.display.component.svg',
   styleUrls: ['./graph-viewer.display.component.css'],
   // Only run change detection when inputs change
   changeDetection: ChangeDetectionStrategy.OnPush
