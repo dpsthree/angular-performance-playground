@@ -1,0 +1,5 @@
+app-graph-viewer-display {
+  display: block;
+  height: calc(100vh - 64px);
+  overflow: hidden;
+}
