@@ -1,12 +1,13 @@
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
 body {
-  font-family: Roboto,"Helvetica Neue",sans-serif;
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  font-display: swap;
   overflow: hidden;
 }
 
 .mat-drawer-backdrop.mat-drawer-shown {
-  background-color: rgba(0,0,0,0);
+  background-color: rgba(0, 0, 0, 0);
 }
 
 canvas {
@@ -31,10 +32,12 @@ app-root {
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
-  flex-direction: column;    
+  flex-direction: column;
 }
 
-app-graph-page, app-about, app-grid-page {
+app-graph-page,
+app-about,
+app-grid-page {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -43,7 +46,8 @@ app-graph-page, app-about, app-grid-page {
   flex: 1 1 auto;
 }
 
-app-grid-page, app-about {
+app-grid-page,
+app-about {
   justify-content: center;
   flex-wrap: wrap;
 }

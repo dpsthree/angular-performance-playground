@@ -32,7 +32,7 @@ export interface GraphNode extends SimulationNodeDatum {
   color: string;
 }
 
-const INITIAL_NODE_COUNT = 250;
+const INITIAL_NODE_COUNT = 200;
 
 @Injectable()
 export class D3HelperService {
