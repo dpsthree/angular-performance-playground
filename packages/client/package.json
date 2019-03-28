@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "sw": "sw-precache --root=dist --config=sw-precache-config.js",
-    "start-dev": "ng serve",
+    "start": "ng serve",
     "build": "ng build --prod && npm run sw",
     "test": "ng test",
     "lint": "ng lint",
@@ -59,6 +59,7 @@
     "karma-coverage-istanbul-reporter": "2.0.5",
     "karma-jasmine": "^2.0.1",
     "karma-jasmine-html-reporter": "^1.4.0",
+    "prettier": "^1.16.4",
     "rxjs-tslint": "^0.1.7",
     "sw-precache": "5.2.1",
     "ts-node": "8.0.3",

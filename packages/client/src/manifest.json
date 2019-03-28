@@ -1,0 +1,9 @@
+{
+  "short_name": "APP",
+  "name": "Angular Performance Playground",
+  "start_url": "/app/graph",
+  "background_color": "#3f51b5",
+  "display": "browser",
+  "scope": "/app/",
+  "theme_color": "#3f51b5"
+}
