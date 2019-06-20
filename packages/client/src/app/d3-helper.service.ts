@@ -50,7 +50,7 @@ export class D3HelperService {
   }> = new BehaviorSubject({ width: 100, height: 100 });
 
   // Webworker that contains the force calculation algorithm
-  private worker = new Worker('worker.js');
+  private worker = new Worker('./d3.worker', { type: 'module' });
 
   // Data as it arrives from the server
   private serverData: Observable<{

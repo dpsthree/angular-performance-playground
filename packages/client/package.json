@@ -46,7 +46,6 @@
     "@types/jasmine": "3.3.12",
     "@types/lodash": "4.14.123",
     "@types/node": "11.11.4",
-    "@types/sharedworker": "0.0.28",
     "codelyzer": "^5.0.1",
     "jasmine-core": "3.3.0",
     "jasmine-spec-reporter": "4.2.1",
@@ -57,7 +56,6 @@
     "karma-jasmine": "2.0.1",
     "karma-jasmine-html-reporter": "1.4.0",
     "sw-precache": "5.2.1",
-    "ts-node": "8.0.3",
     "tslint": "5.14.0",
     "typescript": "3.4.5"
   }
