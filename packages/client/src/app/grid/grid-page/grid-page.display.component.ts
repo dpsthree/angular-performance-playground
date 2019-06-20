@@ -31,7 +31,7 @@ export class GridPageDisplayComponent implements OnInit {
     }
   }
   simpleDataSource: UserData[];
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
   @Input() count: number;
   @Output() countChanged = new EventEmitter<number>();
   displayedColumns = ['displayName', 'relCount', 'color'];

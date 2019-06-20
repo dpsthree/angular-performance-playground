@@ -11,17 +11,17 @@ const routes: Routes = [
   { path: 'app', redirectTo: 'app/graph', pathMatch: 'full' },
   {
     path: 'app/graph',
-    loadChildren: './graph/graph.module#GraphModule',
+    loadChildren: () => import('./graph/graph.module').then(m => m.GraphModule),
     pathMatch: 'full'
   },
   {
     path: 'app/grid',
-    loadChildren: './grid/grid.module#GridModule',
+    loadChildren: () => import('./grid/grid.module').then(m => m.GridModule),
     pathMatch: 'full'
   },
   {
     path: 'app/about',
-    loadChildren: './about/about.module#AboutModule',
+    loadChildren: () => import('./about/about.module').then(m => m.AboutModule),
     pathMatch: 'full'
   }
 ];

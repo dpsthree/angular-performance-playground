@@ -23,7 +23,7 @@ export class GraphViewerDisplayComponent implements OnInit {
 
   // Grab a reference to the SVG DOM element
   // We'll use this below for determining force graph centering
-  @ViewChild('svgEle') svgElement: ElementRef;
+  @ViewChild('svgEle', { static: true }) svgElement: ElementRef;
 
   constructor(private d3Helper: D3HelperService) {
     // Once this component is created tell the browser that
