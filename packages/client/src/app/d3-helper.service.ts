@@ -1,5 +1,4 @@
 import { Injectable, ApplicationRef } from '@angular/core';
-import { Http } from '@angular/http';
 import { SimulationNodeDatum, SimulationLinkDatum } from 'd3-force';
 import { Subject, BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import * as _ from 'lodash';
@@ -11,6 +10,7 @@ import {
   tap,
   map
 } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 const entityEndPoint =
   'https://us-central1-angular-performance-playground.cloudfunctions.net/graphEntities';
 /**
@@ -70,14 +70,10 @@ export class D3HelperService {
   // Number of nodes and links to fetch as a number
   countValue = new BehaviorSubject(INITIAL_NODE_COUNT);
 
-  constructor(private ar: ApplicationRef, http: Http) {
+  constructor(private ar: ApplicationRef, http: HttpClient) {
     // Grab the data from the server
     this.serverData = this.countValue.pipe(
-      switchMap(count =>
-        http
-          .post(entityEndPoint, { data: { count } })
-          .pipe(map(res => res.json()))
-      ),
+      switchMap(count => http.post<any>(entityEndPoint, { data: { count } })),
       map(data => data.result),
       publishReplay(),
       refCount()
@@ -131,7 +127,7 @@ export class D3HelperService {
       this.searchValue,
       (entDetails, search) =>
         entDetails.filter(ent => ent.entity.displayName.indexOf(search) > -1)
-    ).pipe(tap(data => console.log('testing do', data)));
+    ).pipe(tap(data => console.log('testing do2', data)));
   }
 
   // Submit a new search value down the pipeline
