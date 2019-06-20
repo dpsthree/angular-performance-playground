@@ -8,7 +8,8 @@ import {
   OnInit
 } from '@angular/core';
 import { DataSource } from '@angular/cdk/table';
-import { MatSort, MatSliderChange } from '@angular/material';
+import { MatSliderChange } from '@angular/material/slider';
+import { MatSort } from '@angular/material/sort';
 import { Observable, BehaviorSubject, merge } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
