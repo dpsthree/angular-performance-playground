@@ -9,7 +9,7 @@ const colorList = [
   '#003c8f',
   '#e91e63',
   '#ff6090',
-  '#b0003a'
+  '#b0003a',
 ];
 
 cors({ origin: true });
@@ -35,7 +35,7 @@ function generatedData(count: number) {
     entities.push({
       displayName: faker.name.findName(),
       index: i,
-      color: colorList[Math.floor(Math.random() * 6)]
+      color: colorList[Math.floor(Math.random() * 6)],
     });
   }
 
@@ -66,7 +66,7 @@ function generatedData(count: number) {
     } while (found);
     relationships.push({
       source: source.displayName,
-      target: target.displayName
+      target: target.displayName,
     });
   }
   return { entities, relationships };
