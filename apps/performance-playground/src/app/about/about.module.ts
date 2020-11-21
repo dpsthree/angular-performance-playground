@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AboutComponent } from './about.component';
-import { MaterialDepsModule } from 'app/material-deps/material-deps.module';
+import { MaterialDepsModule } from '../material-deps/material-deps.module';
 
 const aboutRoutes: Routes = [{ path: '', component: AboutComponent }];
 

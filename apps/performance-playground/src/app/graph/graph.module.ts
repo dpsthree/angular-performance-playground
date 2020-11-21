@@ -8,7 +8,7 @@ import { GraphViewerComponent } from './graph-page/graph-viewer/graph-viewer.com
 import { GraphViewerDisplayComponent } from './graph-page/graph-viewer/graph-viewer.display.component';
 import { PeopleListComponent } from './graph-page/people-list/people-list.component';
 import { PeopleListDisplayComponent } from './graph-page/people-list/people-list.display.component';
-import { MaterialDepsModule } from 'app/material-deps/material-deps.module';
+import { MaterialDepsModule } from '../material-deps/material-deps.module';
 
 const graphRoutes: Routes = [{ path: '', component: GraphPageComponent }];
 

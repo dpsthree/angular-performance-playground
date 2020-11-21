@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { GridPageComponent } from './grid-page/grid-page.component';
 import { GridPageDisplayComponent } from './grid-page/grid-page.display.component';
-import { MaterialDepsModule } from 'app/material-deps/material-deps.module';
+import { MaterialDepsModule } from '../material-deps/material-deps.module';
 
 const gridRoutes: Routes = [{ path: '', component: GridPageComponent }];
 

@@ -1,19 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import {
-  MatToolbarModule,
-  MatButtonModule,
-  MatInputModule,
-  MatTableModule,
-  MatListModule,
-  MatSortModule,
-  MatSliderModule,
-  MatFormFieldModule,
-  MatCardModule,
-  MatSidenavModule,
-  MatIconModule,
-} from '@angular/material';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatTableModule } from '@angular/material/table';
+import { MatListModule } from '@angular/material/list';
+import { MatSortModule } from '@angular/material/sort';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCardModule } from '@angular/material/card';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
 import { CdkTableModule } from '@angular/cdk/table';
 
 @NgModule({
