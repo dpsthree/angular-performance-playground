@@ -18,7 +18,9 @@ import { MaterialDepsModule } from './material-deps/material-deps.module';
     HttpClientModule,
     AppRoutingModule,
     MaterialDepsModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+    }),
   ],
   providers: [D3HelperService],
   bootstrap: [AppComponent],

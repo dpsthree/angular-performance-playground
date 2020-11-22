@@ -4,7 +4,7 @@ import {
   ViewChild,
   ElementRef,
   OnInit,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { SimulationLinkDatum } from 'd3-force';
 
@@ -15,7 +15,7 @@ import { D3HelperService, GraphNode } from '../../../d3-helper.service';
   templateUrl: './graph-viewer.display.component.svg',
   styleUrls: ['./graph-viewer.display.component.css'],
   // Only run change detection when inputs change
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GraphViewerDisplayComponent implements OnInit {
   @Input() relationships: SimulationLinkDatum<GraphNode>[];
@@ -54,7 +54,7 @@ export class GraphViewerDisplayComponent implements OnInit {
     this.d3Helper.updateSize({
       height:
         nativeElement.clientHeight || nativeElement.parentNode.clientHeight,
-      width: nativeElement.clientWidth || nativeElement.parentNode.clientWidth
+      width: nativeElement.clientWidth || nativeElement.parentNode.clientWidth,
     });
   }
   // Runs each time the view is checked

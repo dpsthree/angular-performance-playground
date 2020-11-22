@@ -5,7 +5,7 @@ import { D3HelperService } from '../../d3-helper.service';
   selector: 'app-grid-page',
   templateUrl: './grid-page.component.html',
   styleUrls: ['./grid-page.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GridPageComponent {
   entities = this.d3Helper.entitiesAndDetails;

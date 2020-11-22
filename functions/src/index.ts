@@ -54,7 +54,7 @@ function generatedData(count: number) {
     };
     do {
       target = entities[Math.floor(Math.random() * count)];
-      found = !!_.find(relationships, link => {
+      found = !!_.find(relationships, (link) => {
         return (
           (link.source === source.displayName &&
             link.target === target.displayName) ||

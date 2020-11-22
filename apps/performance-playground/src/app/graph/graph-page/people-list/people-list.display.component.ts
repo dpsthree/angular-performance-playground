@@ -1,4 +1,11 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  OnDestroy,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { MatSliderChange } from '@angular/material/slider';
@@ -10,11 +17,11 @@ import { GraphNode } from '../../../d3-helper.service';
   templateUrl: './people-list.display.component.html',
   styleUrls: ['./people-list.display.component.css'],
   // Only run change detection with entities or search changes
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PeopleListDisplayComponent implements OnDestroy {
   // The list of people to display, presorted
-  @Input() entities: { entity: GraphNode, relCount: number }[];
+  @Input() entities: { entity: GraphNode; relCount: number }[];
 
   // The search string and people count, if it is changed by means other than the form control
   // this will keep the form in sync
@@ -35,12 +42,14 @@ export class PeopleListDisplayComponent implements OnDestroy {
 
   // used in template to help angular identify unique entities, reduces
   // the amount of DOM updating needed
-  trackEntsBy(_index, entry: { entity: GraphNode, relCount: number }) {
+  trackEntsBy(_index, entry: { entity: GraphNode; relCount: number }) {
     return entry.entity && entry.entity.displayName;
   }
 
   constructor() {
-    this.searchChangedSub = this.searchControl.valueChanges.subscribe(value => this.searchChanged.emit(value));
+    this.searchChangedSub = this.searchControl.valueChanges.subscribe((value) =>
+      this.searchChanged.emit(value)
+    );
   }
 
   ngOnDestroy() {

@@ -10,7 +10,7 @@ import { D3HelperService, GraphNode } from '../../../d3-helper.service';
   templateUrl: './graph-viewer.component.html',
   styleUrls: ['./graph-viewer.component.css'],
   // No change detection here (no inputs)
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GraphViewerComponent {
   relationships: Observable<SimulationLinkDatum<GraphNode>[]>;

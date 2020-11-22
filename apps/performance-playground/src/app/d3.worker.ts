@@ -5,14 +5,14 @@ import {
   forceCenter,
   forceX,
   forceY,
-  forceLink
+  forceLink,
 } from 'd3-force';
 import { find } from 'lodash-es';
 
 // This data should persist between messages
 let simulation, entities, relationships;
 let filteredEntities, filteredRelationships;
-onmessage = function(event) {
+onmessage = function (event) {
   // Unpack the various bits of data
   // Search and type are used on every message
   const search = event.data.search;
@@ -39,19 +39,19 @@ onmessage = function(event) {
       .force('y', forceY())
       .alphaMin(0.0001)
       .alphaDecay(0.0005)
-      .on('tick', function() {
+      .on('tick', function () {
         // Now that d3 has moved the node objects into the links perform a filter
         // but only once
         if (!filteredEntities) {
-          filteredEntities = entities.filter(function(ent) {
+          filteredEntities = entities.filter(function (ent) {
             return ent.displayName.indexOf(search) > -1;
           });
-          filteredRelationships = relationships.filter(function(rel) {
+          filteredRelationships = relationships.filter(function (rel) {
             return (
-              find(filteredEntities, function(ent) {
+              find(filteredEntities, function (ent) {
                 return ent === rel.source;
               }) &&
-              find(filteredEntities, function(ent) {
+              find(filteredEntities, function (ent) {
                 return ent === rel.target;
               })
             );
@@ -60,7 +60,7 @@ onmessage = function(event) {
         // Return the results to the client
         postMessage({
           relationships: filteredRelationships,
-          entities: filteredEntities
+          entities: filteredEntities,
         });
         if (simulation) {
           simulation.stop();
@@ -69,7 +69,7 @@ onmessage = function(event) {
       .force(
         'link',
         forceLink(relationships)
-          .id(function(node) {
+          .id(function (node) {
             return (node as any).displayName;
           })
           .distance(0)
@@ -80,15 +80,15 @@ onmessage = function(event) {
   // When searching we want to continue forcing as usual, but we want to narrow the set
   // that is returned to the client
   if (type && type === 'filter') {
-    filteredEntities = entities.filter(function(ent) {
+    filteredEntities = entities.filter(function (ent) {
       return ent.displayName.indexOf(search) > -1;
     });
-    filteredRelationships = relationships.filter(function(rel) {
+    filteredRelationships = relationships.filter(function (rel) {
       return (
-        find(filteredEntities, function(ent) {
+        find(filteredEntities, function (ent) {
           return ent === rel.source;
         }) &&
-        find(filteredEntities, function(ent) {
+        find(filteredEntities, function (ent) {
           return ent === rel.target;
         })
       );

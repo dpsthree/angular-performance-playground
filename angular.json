@@ -86,12 +86,8 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "apps/performance-playground/src/**/*.ts"
-            ],
-            "tsConfig": [
-              "apps/performance-playground/tsconfig.worker.json"
-            ]
+            "lintFilePatterns": ["apps/performance-playground/src/**/*.ts"],
+            "tsConfig": ["apps/performance-playground/tsconfig.worker.json"]
           }
         },
         "test": {
@@ -124,9 +120,7 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "apps/performance-playground-e2e/**/*.{js,ts}"
-            ]
+            "lintFilePatterns": ["apps/performance-playground-e2e/**/*.{js,ts}"]
           }
         }
       }

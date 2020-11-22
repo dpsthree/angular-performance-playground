@@ -3,5 +3,5 @@ mat-sidenav-container {
 }
 
 mat-sidenav {
-  box-shadow: 3px 0 6px rgba(0,0,0,.24);
+  box-shadow: 3px 0 6px rgba(0, 0, 0, 0.24);
 }

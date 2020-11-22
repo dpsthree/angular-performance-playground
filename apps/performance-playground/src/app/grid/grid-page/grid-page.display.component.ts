@@ -5,7 +5,7 @@ import {
   Output,
   ViewChild,
   EventEmitter,
-  OnInit
+  OnInit,
 } from '@angular/core';
 import { DataSource } from '@angular/cdk/table';
 import { MatSliderChange } from '@angular/material/slider';
@@ -18,14 +18,14 @@ import { GraphNode } from '../../d3-helper.service';
   selector: 'app-grid-page-display',
   templateUrl: './grid-page.display.component.html',
   styleUrls: ['./grid-page.display.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GridPageDisplayComponent implements OnInit {
   @Input() set entities(value: { entity: GraphNode; relCount: number }[]) {
     if (value) {
-      const values = value.map(entry => ({
+      const values = value.map((entry) => ({
         ...entry.entity,
-        relCount: entry.relCount
+        relCount: entry.relCount,
       }));
       this.simpleDataSource = values;
       this.exampleDatabase.updateEntities(values);
@@ -43,11 +43,8 @@ export class GridPageDisplayComponent implements OnInit {
 
   constructor() {
     this.filter.valueChanges
-      .pipe(
-        debounceTime(150),
-        distinctUntilChanged()
-      )
-      .subscribe(value => {
+      .pipe(debounceTime(150), distinctUntilChanged())
+      .subscribe((value) => {
         if (!this.dataSource) {
           return;
         }
@@ -114,7 +111,7 @@ export class ExampleDataSource extends DataSource<any> {
     const displayDataChanges = [
       this._exampleDatabase.dataChange,
       this._filterChange,
-      this._sort.sortChange
+      this._sort.sortChange,
     ];
 
     return merge(...displayDataChanges).pipe(
@@ -124,7 +121,7 @@ export class ExampleDataSource extends DataSource<any> {
           return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
         });
       }),
-      map(filtered => {
+      map((filtered) => {
         return this.getSortedData(filtered);
       })
     );

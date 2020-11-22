@@ -3,7 +3,7 @@ import {
   Routes,
   RouterModule,
   ExtraOptions,
-  PreloadAllModules
+  PreloadAllModules,
 } from '@angular/router';
 
 const routes: Routes = [
@@ -11,28 +11,30 @@ const routes: Routes = [
   { path: 'app', redirectTo: 'app/graph', pathMatch: 'full' },
   {
     path: 'app/graph',
-    loadChildren: () => import('./graph/graph.module').then(m => m.GraphModule),
-    pathMatch: 'full'
+    loadChildren: () =>
+      import('./graph/graph.module').then((m) => m.GraphModule),
+    pathMatch: 'full',
   },
   {
     path: 'app/grid',
-    loadChildren: () => import('./grid/grid.module').then(m => m.GridModule),
-    pathMatch: 'full'
+    loadChildren: () => import('./grid/grid.module').then((m) => m.GridModule),
+    pathMatch: 'full',
   },
   {
     path: 'app/about',
-    loadChildren: () => import('./about/about.module').then(m => m.AboutModule),
-    pathMatch: 'full'
-  }
+    loadChildren: () =>
+      import('./about/about.module').then((m) => m.AboutModule),
+    pathMatch: 'full',
+  },
 ];
 
 const config: ExtraOptions = {
   useHash: false,
-  preloadingStrategy: PreloadAllModules
+  preloadingStrategy: PreloadAllModules,
 };
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, config)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}
